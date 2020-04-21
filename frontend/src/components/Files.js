@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import File from "./File"
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { FaChevronDown } from 'react-icons/fa';
 
 class Files extends Component {
@@ -26,7 +26,7 @@ class Files extends Component {
                             <p>Create document</p>
                         </div> 
                         <div className="user-dropdown">
-                                <p>cole_horvitz@brown.edu</p>
+                            <p>{this.props.user}</p>
                             <FaChevronDown color={"#723EE0"}/>
                         </div> 
                     </nav>
@@ -53,6 +53,10 @@ class Files extends Component {
     updateSearch = (e) => {
         let searchChars = e.target.value.trim().toLowerCase();
         this.setState({ searchChars });
+    }
+
+    componentDidCatch = () => {
+        console.log(this.props.state.location.user);
     }
 }
 

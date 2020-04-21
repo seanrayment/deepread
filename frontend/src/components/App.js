@@ -1,5 +1,5 @@
 import React, { Component} from "react";
-import { Switch, Route, Link } from "react-router-dom";
+import { Switch, Route, Link, Redirect } from "react-router-dom";
 import Login from "./Login";
 import SignUp from "./SignUp";
 import ThankYou from "./ThankYou";
@@ -12,6 +12,20 @@ class App extends Component {
     constructor() {
         super();
         this.handleLogout = this.handleLogout.bind(this);
+        this.state = {
+            isAuthed: localStorage.get('acces_token') ? true : false,
+            user: null,
+        }
+    }
+
+    componentDidMount = () => {
+        if (this.state.isAuthed) {
+            
+        }
+    }
+
+    setAuthed = (user) => {
+        this.setState({isAuthed: true, user });
     }
 
     handleLogout() {
@@ -39,9 +53,9 @@ class App extends Component {
                 </nav> */}
                 <main>
                     <Switch>
-                        <Route exact path={"/login/"} component={Login}/>
+                        <Route exact path={"/login/"} render = { (props) => <Login {...props} setAuthed={this.setAuthed}/>}/>
                         <Route exact path={"/register/"} component={SignUp}/>
-                        <Route exact path={"/files/"} component={Files}/>
+                        <Route exact path={"/files/"} render = { (props) => (this.state.isAuthed ? <Files {...props} user = {this.state.user}/> : <Redirect to="/login" /> )} />
                         <Route exact path={"/thankyou/"} component={ThankYou}/>
                         <Route exact path={"/"} component={Files} />
                     </Switch>

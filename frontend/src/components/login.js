@@ -1,16 +1,16 @@
 import React, { Component } from "react";
 import axiosInstance from "../axiosApi";
-import { Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+
 
 class Login extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
             username: "",
-            password: ""
+            password: "",
         };
-        // this.handleChange = this.handleChange.bind(this);
-        // this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleChange = (event) => {
@@ -28,10 +28,12 @@ class Login extends Component {
                 axiosInstance.defaults.headers['Authorization'] = "JWT " + result.data.access;
                 localStorage.setItem('access_token', result.data.access);
                 localStorage.setItem('refresh_token', result.data.refresh);
-                return response.data;
+                return result.data;
             }
-        ).catch (error => {
-            console.log('e');
+        ).then( (userData) => {
+            this.props.setAuthed(this.state.username);
+            this.props.history.push("/files");
+        }).catch (error => {
             throw error;
         });
     }
