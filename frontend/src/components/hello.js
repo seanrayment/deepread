@@ -7,11 +7,9 @@ class Hello extends Component {
         this.state = {
             message:"",
         };
-
-        this.getMessage = this.getMessage.bind(this)
     }
 
-    getMessage(){
+    getMessage = () => {
         let response = axiosInstance.get('/hello/')
             .then(
                 result => {

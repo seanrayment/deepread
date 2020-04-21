@@ -1,49 +1,212 @@
-.App {
-  text-align: center;
+/*** STYLES ***/
+
+/* Login */
+.login-body{
+  width:100vw;
+  min-height:100vh;
+  padding:0 34vw;
+  box-sizing: border-box; 
+  background: linear-gradient(to bottom right, #723EE0, #3E92CC); 
+  display:flex;
+  justify-content: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.login-content{
+  width:100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+}
+
+.login-content h1{
   color: white;
+  font-weight:bold;
+  padding: 2rem 0;
+  font-size: 3em;
 }
 
-.App-link {
-  color: #61dafb;
+.login-card{
+  width:100%;
+  background-color:#FDFDFD;
+  border-radius:10px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  display:flex;
+  justify-content: center;
+  align-items:center;
+  box-sizing: border-box;
+  margin-bottom:1rem;
+}
+.login-form{
+  width:100%;
+  padding:3.5rem;
+}
+.login-form h2 {
+  font-weight:600;
+  padding-bottom:2rem;
+  margin:0;
+  text-align:center;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.login-form label {
+  display:block;
+  text-align:left;
+
+}
+.login-content a {
+  padding-left:.25rem;
+  float:right;
+  color:#3E92CC;
+}
+.login-content input[type="email"], input[type="password"] {
+  width:100%;
+  height:3em;
+  border-radius:10px;
+  border:1px solid #E0E0E0;
+  margin-top:.5rem;
+  margin-bottom:2rem;
+  padding: 1.25rem 1rem;
+  box-sizing:border-box;
 }
 
-#root{
-  background-color:rebeccapurple;
+.login-content input[type="email"]::placeholder, input[type="password"]::placeholder {
+  color: #9E9E9E;
+  font-size:16px;
+}
+
+.login-content input[type="submit"] {
+  width:100%;
+  background-color:#3E92CC;
+  box-shadow: 0 4px 5px 0 rgba(0,0,0,0.2);
   color:white;
+  height:3em;
+  font-size:16px;
+  font-weight: 700;
+  transition: background-color .1s ease-in-out;
+  cursor:pointer;
+  border-radius:10px;
+}
+.login-content input[type="submit"]:hover{
+  background-color: #4487CF;
+}
+.signup-card{
+  padding:.5rem;
 }
 
-.nav-link{
+/* Files */ 
+.files-body{
+  width:100vw;
+  padding:2rem 10vw;
+  box-sizing: border-box;
+}
+
+.header{
+  display:flex;
+  justify-content: space-between;
+  widows: 100%;
+  align-items: center;
+}
+.header a {
+  text-decoration: none;
+}
+.logo {
+  background: -webkit-linear-gradient(right, #723EE0, #3E92CC);
+  background-clip:text;
+  font-weight: 700;
+  font-size:36px;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.nav{
+  width:400px;
+  height:42px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  display:flex;
+  border-radius:5px;
+}
+
+.create-doc{
+  background-color:#723EE0;
+  border-radius:5px 0 0 5px;
   color:white;
-  border: 1px solid white;
-  padding: 1em;
+  font-weight:bold;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width:50%;
+}
+.create-doc p{
+  font-size:14px;
+
+}
+
+.user-dropdown{
+  flex:1;
+  display:flex;
+  align-items: center;
+  justify-content: space-between;
+  padding:1rem;
+  box-sizing: border-box;
+
+}
+
+.user-dropdown p {
+  color:#723EE0;
+  width:128px;
+  padding-left:1rem;
+  display: block;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.files-content{
+  margin-top:6rem;
+}
+.files-content h2{
+  font-weight:400;
+  font-size:32px;
+  margin-bottom: .5rem;
+}
+.files-control{
+  display:flex;
+}
+.files-control input[type="search"] {
+  margin:1rem 0;
+  padding:0 .5rem;
+  border:1px solid #E0E0E0;
+  width:364px;
+  height:36px;
+}
+.files-control input[type="search"]::placeholder{
+  font-size:16px;
+  color:grey;
+  font-weight: 300;
+}
+
+.files-content table{
+  width:100%;
+  border:1px solid #E0E0E0
+}
+
+.lightgrey-border{
+  border:1px solid #E0E0E0
+}
+
+.files-content table td {
+  padding:1rem 2rem;
+  width:50%;
+  box-sizing: border-box;
+}
+.file-metadata{
+  display:flex;
+}
+
+.files-content table td {
+  border-bottom:1px solid #e0e0e0;
+}
+
+.files-content table tr:last-child td { 
+  border-bottom: none; 
 }
