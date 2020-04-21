@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axiosInstance from "../axiosApi";
+import { Redirect } from "react-router-dom";
 
 class Login extends Component {
     constructor(props) {
@@ -30,8 +31,9 @@ class Login extends Component {
                 return response.data;
             }
         ).catch (error => {
+            console.log('e');
             throw error;
-        }) 
+        });
     }
 
     render() {
