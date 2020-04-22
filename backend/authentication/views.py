@@ -18,6 +18,7 @@ class CustomUserCreate(APIView):
     authentication_classes = ()
 
     def post(self, request, format='json'):
+        print("succesfully routed to post handler")
         serializer = CustomUserSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
