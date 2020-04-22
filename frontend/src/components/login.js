@@ -7,7 +7,7 @@ class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: "",
+            email: "",
             password: "",
         };
     }
@@ -29,8 +29,7 @@ class Login extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
         axiosInstance.post('/token/obtain/', {
-            username: "cole2",
-            email: this.state.username,
+            username: this.state.email,
             password: this.state.password,
         }).then(
             result => {
@@ -41,7 +40,6 @@ class Login extends Component {
         ).then( () => {
             this.props.checkAuth();
         }).then( () => {
-            this.props.history.push("/");
         }).catch (error => {
             throw error;
         });
@@ -57,7 +55,7 @@ class Login extends Component {
                             <h2>Sign in to your account</h2>
                             <form onSubmit={this.handleSubmit}>
                                 <label>Email <br></br>
-                                    <input type="email" onChange={this.handleChange} name="username" placeholder="Enter your email"/>
+                                    <input type="email" onChange={this.handleChange} name="email" placeholder="Enter your email"/>
                                 </label>
                                 <label>Password <a href="">Forgot password?</a><br></br>
                                     <input type="password" onChange={this.handleChange} name="password" placeholder="Enter your password"/>
