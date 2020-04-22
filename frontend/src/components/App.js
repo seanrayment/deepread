@@ -45,14 +45,6 @@ class App extends Component {
     }
 
     /**
-     * Is called as a callback function in the Login component.
-     * When the user completes a successful login request, state is updated.
-     */
-    handleLogin = () => {
-        this.checkAuth();
-    }
-
-    /**
      * Called as a function from nav bar
      */
     handleLogout = () => {
@@ -83,7 +75,7 @@ class App extends Component {
                 <main>
                     <Switch>
                         <Route exact path={"/login/"} render = { (props) => (!this.state.isAuthed ? <Login {...props} checkAuth={this.checkAuth}/> : <Redirect to="/"/>)} />
-                        <Route exact path={"/register/"} component={SignUp}/>
+                        <Route exact path={"/register/"} render ={ (props) => <SignUp {...props} checkAuth = {this.checkAuth} ></SignUp>}/>
                         <Route exact path={"/(dashboard|)/"} render = { (props) => (this.state.isAuthed ? <Dashboard {...props} user = {this.state.user} signOut = {this.handleLogout}/> : <Redirect to="/login" /> )} />
                         <Route exact path={"/thankyou/"} component={ThankYou}/>
                     </Switch>
