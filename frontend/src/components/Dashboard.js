@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import File from "./File"
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FaChevronDown } from 'react-icons/fa';
 
-class Files extends Component {
+class Dashboard extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -25,10 +25,15 @@ class Files extends Component {
                         <div className="create-doc">
                             <p>Create document</p>
                         </div> 
-                        <div className="user-dropdown">
-                            <p>{this.props.user}</p>
-                            <FaChevronDown color={"#723EE0"}/>
-                        </div> 
+                        <div className="user-dropdown-wrapper">
+                            <div className="user-dropdown">
+                                <p>{this.props.user.email}</p>
+                                <FaChevronDown color={"#723EE0"}/>
+                            </div> 
+                            <div className="menu">
+                                <Link to="/login" onClick={this.signOut}>Sign out</Link>
+                            </div>
+                        </div>
                     </nav>
                 </div>
                 <div className="files-content">
@@ -46,6 +51,12 @@ class Files extends Component {
         );
     }
 
+    signOut = () => {
+        this.props.signOut().then( () => {
+            this.props.history.push("/login");
+        });
+    }
+
     filterAndSearch = () => {
         return this.state.fileList.filter(file => file.props.name.trim().toLowerCase().includes(this.state.searchChars));
     }
@@ -60,4 +71,4 @@ class Files extends Component {
     }
 }
 
-export default Files;
+export default Dashboard;

@@ -3,61 +3,89 @@ import { Switch, Route, Link, Redirect } from "react-router-dom";
 import Login from "./Login";
 import SignUp from "./SignUp";
 import ThankYou from "./ThankYou";
-import Files from "./Files";
+import Dashboard from "./Dashboard";
 import '../App.css';
 import axiosInstance from "../axiosApi";
 
 class App extends Component {
 
+    /**
+     * isAuthed: boolean of login state 
+     * user: data associated with current user
+     * These states are used to protect routes from logged-out users
+     */
     constructor() {
         super();
-        this.handleLogout = this.handleLogout.bind(this);
         this.state = {
-            isAuthed: localStorage.get('acces_token') ? true : false,
+            isAuthed: false,
             user: null,
         }
     }
 
     componentDidMount = () => {
-        if (this.state.isAuthed) {
-            
+        this.checkAuth();
+    }
+
+    /**
+     * Use the locally stored access token to get user information.
+     */
+    checkAuth = () => {
+        if (localStorage.getItem('access_token')) {
+            axiosInstance.get('/user/', {
+                headers: {
+                    Authorization: `JWT ${localStorage.getItem('access_token')}`
+                }
+            }).then(
+                (res) => {
+                    this.setState({isAuthed:true, user: res.data,})
+            }).catch(error => {
+                throw error
+            });
         }
     }
 
-    setAuthed = (user) => {
-        this.setState({isAuthed: true, user });
+    /**
+     * Is called as a callback function in the Login component.
+     * When the user completes a successful login request, state is updated.
+     */
+    handleLogin = () => {
+        this.checkAuth();
     }
 
-    handleLogout() {
+    /**
+     * Called as a function from nav bar
+     */
+    handleLogout = () => {
         const response = axiosInstance.post('/blacklist/', {
             "refresh_token": localStorage.getItem("refresh_token")
         }).then(response => {
             localStorage.removeItem('access_token');
             localStorage.removeItem('refresh_token');
+            this.setState({
+                isAuthed:false,
+                user: null,
+            });
             axiosInstance.defaults.headers['Authorization'] = null;
-            return response;
         }).catch(error => {
             console.log(error);
         })
+        return response;
     }
 
+    /**
+     * Instead of route's component property, we use a render function to pass in props and conditionally decide which page to display
+     * 
+     * the "/(dashboard|)/" path routes to both "/" and "/dashboard"
+     */
     render() {
         return (
             <div className="site">
-                {/* <nav>
-                    <Link className={"nav-link"} to={"/"}>Home</Link>
-                    <Link className={"nav-link"} to={"/login/"}>Login</Link>
-                    <Link className={"nav-link"} to={"/signup/"}>Signup</Link>
-                    <Link className={"nav-link"} to={"/hello/"}>Hello</Link>
-                    <button onClick={this.handleLogout}>Logout</button>
-                </nav> */}
                 <main>
                     <Switch>
-                        <Route exact path={"/login/"} render = { (props) => <Login {...props} setAuthed={this.setAuthed}/>}/>
+                        <Route exact path={"/login/"} render = { (props) => (!this.state.isAuthed ? <Login {...props} checkAuth={this.checkAuth}/> : <Redirect to="/"/>)} />
                         <Route exact path={"/register/"} component={SignUp}/>
-                        <Route exact path={"/files/"} render = { (props) => (this.state.isAuthed ? <Files {...props} user = {this.state.user}/> : <Redirect to="/login" /> )} />
+                        <Route exact path={"/(dashboard|)/"} render = { (props) => (this.state.isAuthed ? <Dashboard {...props} user = {this.state.user} signOut = {this.handleLogout}/> : <Redirect to="/login" /> )} />
                         <Route exact path={"/thankyou/"} component={ThankYou}/>
-                        <Route exact path={"/"} component={Files} />
                     </Switch>
                 </main>
             </div>

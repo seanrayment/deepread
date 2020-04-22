@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import axiosInstance from "../axiosApi";
-import { useHistory } from "react-router-dom";
 
 
 class Login extends Component {
@@ -13,26 +12,36 @@ class Login extends Component {
         };
     }
 
+
+    /**
+     * Updates username and passwords states upon change
+     */
     handleChange = (event) => {
         this.setState({[event.target.name]: event.target.value});
     }
 
+    /**
+     * When a login is submitted, new access and refresh tokens are generated
+     * Then, these tokens are stored in local storage
+     * Then, a callback is made to App, whose state is updated to know that the user is logged in
+     * Then, the user is redirected to the dashboard which is now aware of credentials
+     */
     handleSubmit = (event) => {
         event.preventDefault();
-        const response = axiosInstance.post('/token/obtain/', {
+        axiosInstance.post('/token/obtain/', {
             username: "cole2",
             email: this.state.username,
-            password: this.state.password
+            password: this.state.password,
         }).then(
             result => {
                 axiosInstance.defaults.headers['Authorization'] = "JWT " + result.data.access;
                 localStorage.setItem('access_token', result.data.access);
                 localStorage.setItem('refresh_token', result.data.refresh);
-                return result.data;
             }
-        ).then( (userData) => {
-            this.props.setAuthed(this.state.username);
-            this.props.history.push("/files");
+        ).then( () => {
+            this.props.checkAuth();
+        }).then( () => {
+            this.props.history.push("/");
         }).catch (error => {
             throw error;
         });
@@ -63,23 +72,6 @@ class Login extends Component {
                 </div>
 
             </div>
-
-
-
-
-            // <div>Login
-            //     <form onSubmit={this.handleSubmit}>
-            //         <label>
-            //             Username:
-            //             <input name="username" type="text" value={this.state.username} onChange={this.handleChange}/>
-            //         </label>
-            //         <label>
-            //             Password:
-            //             <input name="password" type="password" value={this.state.password} onChange={this.handleChange}/>
-            //         </label>
-            //         <input type="submit" value="Submit"/>
-            //     </form>
-            // </div>
         )
     }
 }
