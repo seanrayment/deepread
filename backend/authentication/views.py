@@ -3,6 +3,9 @@ from rest_framework import status, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
+from .models import CustomUser
+from django.http import Http404
+import json
 
 from .serializers import MyTokenObtainPairSerializer, CustomUserSerializer
 
@@ -14,7 +17,6 @@ class CustomUserCreate(APIView):
     permission_classes = (permissions.AllowAny,)
     authentication_classes = ()
 
-
     def post(self, request, format='json'):
         serializer = CustomUserSerializer(data=request.data)
         if serializer.is_valid():
@@ -24,9 +26,24 @@ class CustomUserCreate(APIView):
                 return Response(json, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class CustomUserGet(APIView):
+    
+    def get_user(self, username):
+        try:
+            return CustomUser.objects.get(username=username)
+        except CustomUser.DoesNotExist:
+            raise Http404
+
+    def get(self, request, format='json'):
+        user = self.get_user(request.user.username)
+        serializer = CustomUserSerializer(user)
+        return Response(serializer.data)
+
+
 class HelloWorldView(APIView):
 
     def get(self, request):
+        print(request.user)
         return Response(data={"hello":"world"}, status=status.HTTP_200_OK)
 
 class LogoutAndBlacklistRefreshTokenForUserView(APIView):
