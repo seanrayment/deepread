@@ -35,3 +35,46 @@ If you add new python modules while working on the project, register them as dep
 `pip freeze > requirements.txt`
 
 ## API
+
+### Creating a user
+`POST /api/user/create/`
+| param         | description   | 
+| ------------- |---------------| 
+| username      | <String> must be unique | 
+| email      | <String> must be unique and valid email format      |  
+| password | <String> at least 8 characters      |  
+
+
+### Obtaining a JWT token pair (User login) 
+`POST /api/token/obtain/`
+
+| param         | description   | 
+| ------------- |---------------| 
+| username      | <String> must match an existing user | 
+| password | <String>      |  
+
+### Refreshing an access token (extending 5-minute user session)
+`POST /api/token/refresh/`
+| param         | description   | 
+| ------------- |---------------| 
+| refresh      | <String> valid JWT refresh token from last 2 weeks | 
+  
+### Blacklisting JWT token (User logout)
+`POST /api/blacklist`
+| param         | description   | 
+| ------------- |---------------| 
+| refresh_token      | <String> JWT refresh token | 
+
+### Get User Info
+`GET /api/user/`
+| header         | description   | 
+| ------------- |---------------| 
+| Authorization      | `JWT <JWT access token>` | 
+
+example response
+```
+{
+    "email": "Aleen62@gmail.com",
+    "username": "Dasia72"
+}
+```
