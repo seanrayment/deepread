@@ -31,6 +31,7 @@ class App extends Component {
      */
     checkAuth = () => {
         if (localStorage.getItem('access_token')) {
+            console.log(localStorage.getItem('access_token'))
             axiosInstance.get('/user/', {
                 headers: {
                     Authorization: `JWT ${localStorage.getItem('access_token')}`
@@ -49,8 +50,9 @@ class App extends Component {
      */
     handleLogout = () => {
         const response = axiosInstance.post('/blacklist/', {
-            "refresh_token": localStorage.getItem("refresh_token")
+            "refresh_token": localStorage.getItem("refresh_token"),
         }).then(response => {
+            console.log("about to delete the tokens")
             localStorage.removeItem('access_token');
             localStorage.removeItem('refresh_token');
             this.setState({

@@ -17,10 +17,6 @@ class Dashboard extends Component {
         }
     }
 
-    componentDidMount() {
-        this.getDocs();
-    }
-
     render() {
         return (
             <div className="files-body">
@@ -61,17 +57,6 @@ class Dashboard extends Component {
             this.props.history.push("/login");
         });
     }
-
-    getDocs = () => {
-        let response = axiosInstance.get('/documents/')
-            .then(
-                result => {
-                    console.log(result)
-            }).catch(error => {
-                console.log("Error: ", JSON.stringify(error, null, 4));
-                throw error;
-            })
-    } 
 
     filterAndSearch = () => {
         return this.state.fileList.filter(file => file.props.name.trim().toLowerCase().includes(this.state.searchChars));
