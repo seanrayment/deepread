@@ -137,7 +137,7 @@ example response
 | Authorization      | `JWT <JWT access token>` |
 
 ### Listing documents
-`POST /api/documents/`
+`GET /api/documents/`
 | header         | description   | 
 | ------------- |---------------| 
 | Authorization      | `JWT <JWT access token>` |
