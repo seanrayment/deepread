@@ -3,6 +3,11 @@ import { Link } from "react-router-dom";
 import { FaChevronDown } from 'react-icons/fa';
 import axiosInstance from '../axiosApi';
 
+/**
+ * TODO: error catching
+ */
+
+
 class CreateDocument extends Component {
 
     constructor(){
@@ -58,7 +63,7 @@ class CreateDocument extends Component {
                             </div>
                             <div>
                                 <label>BODY <br></br>
-                                    <input name="contents" type="textarea" onChange={this.handleChange}></input>
+                                    <textarea name="contents" type="textarea" rows="1" cols="50" onChange={this.handleChange}></textarea>
                                 </label>
                             </div>
                             <input type="submit"></input>

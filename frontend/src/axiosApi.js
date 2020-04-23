@@ -15,7 +15,7 @@ axiosInstance.interceptors.response.use(
     error => {
       const originalRequest = error.config;
       
-      if (error.response.status === 401 && error.response.statusText === "Unauthorized"  && error.response.data.code === "token_not_valid") {
+      if (error.response.status === 401 && error.response.statusText === "Unauthorized"  && error.response.data.code === "token_not_valid" && error.detail != "Token is blacklisted") {
           const refresh_token = localStorage.getItem('refresh_token');
 
           return axiosInstance

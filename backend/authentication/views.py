@@ -37,6 +37,7 @@ class CustomUserGet(APIView):
 
     def get(self, request, format='json'):
         user = self.get_user(request.user.username)
+        print(user)
         serializer = CustomUserSerializer(user)
         return Response(serializer.data)
 

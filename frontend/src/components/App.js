@@ -26,14 +26,15 @@ class App extends Component {
     /**
      * Use the locally stored access token to get user information.
      */
-    checkAuth = () => {
+    checkAuth = async () => {
         if (localStorage.getItem('access_token')) {
-            axiosInstance.get('/user/').then(
-                (res) => {
-                    this.setState({isAuthed:true, user: res.data,})
-            }).catch(error => {
-                throw error
-            });
+            try {
+                let res = await axiosInstance.get('/user/'); 
+                this.setState({isAuthed: true, user: res.data});    
+            }
+            catch (error) {
+                throw error;
+            }
         }
     }
 
@@ -46,14 +47,14 @@ class App extends Component {
      */
     handleLogout = () => {
         const response = axiosInstance.post('/blacklist/', {
-            "refresh_token": localStorage.getItem("refresh_token")
+            "refresh_token": localStorage.getItem("refresh_token"),
         }).then(response => {
+            console.log("about to delete the tokens")
             localStorage.removeItem('access_token');
             localStorage.removeItem('refresh_token');
             this.setState({
                 isAuthed:false,
                 user: null,
-                activeDoc: null,
             });
             axiosInstance.defaults.headers['Authorization'] = null;
         }).catch(error => {
@@ -78,16 +79,17 @@ class App extends Component {
                         <Route exact path={"/register/"} render ={ (props) => 
                             <SignUp {...props} checkAuth = {this.checkAuth} ></SignUp>}
                         />
+                        <Route exact path={"/thankyou/"} component={ThankYou}/>                        
                         <Route exact path={"/(dashboard|)/"} render = { (props) => 
                             (this.state.isAuthed ? <Dashboard {...props} user = {this.state.user} signOut = {this.handleLogout} /> : <Redirect to="/login" /> )}
                         />
-                        <Route exact path={"/thankyou/"} component={ThankYou}/>
                         <Route exact path={"/document/:pk"} render = { (props) => 
                             <Reader {...props} /> } 
                         />
                         <Route exact path={"/create/"} render= { (props) => 
                             <CreateDocument {...props} user = {this.state.user} />
-                        } />
+                        } /> 
+
                     </Switch>
                 </main>
             </div>
