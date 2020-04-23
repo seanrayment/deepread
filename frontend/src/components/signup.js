@@ -61,6 +61,7 @@ class SignUp extends Component{
             <div className="login-body">
                 <div className="login-content">
                     <h1>deepread.app</h1>
+
                     <div className="login-card">
                         <div className="login-form">
                             <h2>Register for an account</h2>
