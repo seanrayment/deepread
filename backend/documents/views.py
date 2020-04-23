@@ -28,22 +28,31 @@ class DocumentListView(APIView):
 
 
 class DocumentView(APIView):
-
     def get_document(self, pk):
         try:
             return Document.objects.get(pk=pk)
         except Document.DoesNotExist:
             raise Http404
 
-    def get(self, request, pk, format='json'):
-        try:
-            user = CustomUser.objects.get(username=request.user.username)
-            print(user)
-            doc = self.get_document(pk)
-            if doc.owner == user:
-                serializer = DocumentSerializer(doc)
+    def put(self, request, pk, format='json'):
+        doc = self.get_document(pk)
+        if doc.owner == request.user:
+            serializer = DocumentSerializer(doc, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
                 return Response(serializer.data)
-            
-            raise Http404
-        except:
-            raise Http404
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def get(self, request, pk, format='json'):
+        doc = self.get_document(pk)
+        if doc.owner == request.user:
+            serializer = DocumentSerializer(doc)
+            return Response(serializer.data)
+        raise Http404
+
+    def delete(self, request, pk, format='json'):
+        doc = self.get_document(pk)
+        if doc.owner == request.user:
+            doc.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        raise Http404
