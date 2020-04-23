@@ -3,15 +3,16 @@ import React, { Component } from "react";
 class File extends Component{
     constructor(props){
         super(props);
-        this.state = {
-
-        }
     }
+    handleClick = () => {
+        this.props.selectFile(this.props.file.pk); 
+    }
+
     render() {
         return(
-            <tr>
+            <tr onClick={this.handleClick}>
                 <td>
-                    <p>{this.props.name}</p>
+                    <p>{this.props.file.title}</p>
                 </td>
                 <td>
                     <div className="file-metadata">
