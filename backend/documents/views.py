@@ -13,7 +13,7 @@ class DocumentListView(APIView):
 
     def get(self, request, format='json'):
         try:
-            docs = request.user.document_set.filter(is_deleted=False)
+            docs = request.user.document_set.all()
             serializer = DocumentSerializer(docs, many=True)                
             return Response(serializer.data)
         except:
