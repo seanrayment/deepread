@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import File from "./File"
 import { Link } from "react-router-dom";
 import { FaChevronDown } from 'react-icons/fa';
+import axiosInstance from '../axiosApi';
 
 class Dashboard extends Component {
     constructor(props){
@@ -14,6 +15,10 @@ class Dashboard extends Component {
             ],
             searchChars: "",
         }
+    }
+
+    componentDidMount() {
+        this.getDocs();
     }
 
     render() {
@@ -56,6 +61,17 @@ class Dashboard extends Component {
             this.props.history.push("/login");
         });
     }
+
+    getDocs = () => {
+        let response = axiosInstance.get('/documents/')
+            .then(
+                result => {
+                    console.log(result)
+            }).catch(error => {
+                console.log("Error: ", JSON.stringify(error, null, 4));
+                throw error;
+            })
+    } 
 
     filterAndSearch = () => {
         return this.state.fileList.filter(file => file.props.name.trim().toLowerCase().includes(this.state.searchChars));

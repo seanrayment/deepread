@@ -3,7 +3,7 @@
 /* Login */
 .login-body{
   width:100vw;
-  min-height:100vh;
+  min-height:110vh;
   padding:0 34vw;
   box-sizing: border-box; 
   background: linear-gradient(to bottom right, #723EE0, #3E92CC); 
@@ -71,6 +71,19 @@
 .login-content input[type="email"]::placeholder, input[type="password"]::placeholder {
   color: #9E9E9E;
   font-size:16px;
+}
+
+.error-list {
+  display: inline;
+  list-style-type: none;
+  padding: none;
+}
+
+.error-list > .error-list-item {
+  font-size: 14px;
+  color: red;
+  width: 100%;
+  text-align: left;
 }
 
 .login-content input[type="submit"] {
