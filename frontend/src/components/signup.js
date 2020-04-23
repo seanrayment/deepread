@@ -13,8 +13,7 @@ class SignUp extends Component{
 
     handleChange = (event) => {
         this.setState({[event.target.name]: event.target.value});
-        let oldErrors = {...this.state.errors};
-        oldErrors[event.target.name] = {}
+        let oldErrors = {...this.state.errors, ...{[event.target.name]: {}}};
         this.setState({errors: oldErrors});
     }
 
