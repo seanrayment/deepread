@@ -123,6 +123,7 @@
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   display:flex;
   border-radius:5px;
+  z-index:0;
 }
 
 .create-doc{
@@ -206,6 +207,7 @@
   width:364px;
   height:36px;
 }
+
 .files-control input[type="search"]::placeholder{
   font-size:16px;
   color:grey;
@@ -214,7 +216,10 @@
 
 .files-content table{
   width:100%;
-  border:1px solid #E0E0E0
+  border:1px solid #E0E0E0;
+  border-collapse: collapse;
+  border-spacing: 0;
+
 }
 
 .lightgrey-border{
@@ -237,3 +242,72 @@
 .files-content table tr:last-child td { 
   border-bottom: none; 
 }
+.files-content table tr {
+  border-left:1px solid #E0E0E0
+}
+.files-content table tr:hover{
+  border-left:2px solid #723EE0;
+  cursor: pointer;
+}
+
+.files-no-files{
+  width:100%;
+  height:25em;
+
+}
+
+.files-content input[type="textarea"]{
+  width:75%;
+  height:25em;
+  padding:.33rem;
+  margin-top:4px;
+
+}
+
+.files-content input[type="text"]{
+  width:364px;
+  height:24px;
+  margin-top:4px;
+  padding:.33rem;
+}
+.files-content input[type="text"]::placeholder {
+  font-size: 16px;
+  color:#757575;
+}
+
+.files-content input[type="submit"] {
+  width:128px;
+  color:#723EE0;
+  border:1px solid #723EE0;
+  height:36px;
+  margin-top:2rem;
+  font-size:16px;
+}
+.files-content input[type="submit"]:hover {
+  background-color: #723EE0;
+  color:white;
+  cursor: pointer;
+}
+.files-content label {
+  color:#757575;
+  font-size: 14px;
+  font-weight:400;
+  margin-top:4rem;
+}
+
+.create-form div {
+  margin-top:1rem;
+}
+
+.reader-body{
+  margin: 5rem 25vw;
+}
+
+.reader-body p {
+  line-height:2;
+}
+
+.nav-link{
+  color:white;
+}
+

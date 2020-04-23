@@ -1,14 +1,15 @@
 import React, { Component} from "react";
 import { Switch, Route, Link, Redirect } from "react-router-dom";
-import Login from "./login";
-import SignUp from "./signup";
+import Login from "./Login";
+import SignUp from "./SignUp";
 import ThankYou from "./ThankYou";
 import Dashboard from "./Dashboard";
+import Reader from "./Reader";
+import CreateDocument from "./CreateDocument";
 import '../App.css';
 import axiosInstance from "../axiosApi";
 
 class App extends Component {
-
     /**
      * isAuthed: boolean of login state 
      * user: data associated with current user
@@ -22,26 +23,22 @@ class App extends Component {
         }
     }
 
-    componentDidMount = () => {
-        this.checkAuth();
-    }
-
     /**
      * Use the locally stored access token to get user information.
      */
     checkAuth = () => {
         if (localStorage.getItem('access_token')) {
-            axiosInstance.get('/user/', {
-                headers: {
-                    Authorization: `JWT ${localStorage.getItem('access_token')}`
-                }
-            }).then(
+            axiosInstance.get('/user/').then(
                 (res) => {
                     this.setState({isAuthed:true, user: res.data,})
             }).catch(error => {
                 throw error
             });
         }
+    }
+
+    componentDidMount = () => {
+        this.checkAuth();
     }
 
     /**
@@ -56,6 +53,7 @@ class App extends Component {
             this.setState({
                 isAuthed:false,
                 user: null,
+                activeDoc: null,
             });
             axiosInstance.defaults.headers['Authorization'] = null;
         }).catch(error => {
@@ -74,10 +72,22 @@ class App extends Component {
             <div className="site">
                 <main>
                     <Switch>
-                        <Route exact path={"/login/"} render = { (props) => (!this.state.isAuthed ? <Login {...props} checkAuth={this.checkAuth}/> : <Redirect to="/"/>)} />
-                        <Route exact path={"/register/"} render ={ (props) => <SignUp {...props} checkAuth = {this.checkAuth} ></SignUp>}/>
-                        <Route exact path={"/(dashboard|)/"} render = { (props) => (this.state.isAuthed ? <Dashboard {...props} user = {this.state.user} signOut = {this.handleLogout}/> : <Redirect to="/login" /> )} />
+                        <Route exact path={"/login/"} render = { (props) => 
+                            (!this.state.isAuthed ? <Login {...props} checkAuth={this.checkAuth}/> : <Redirect to="/"/>)}
+                        />
+                        <Route exact path={"/register/"} render ={ (props) => 
+                            <SignUp {...props} checkAuth = {this.checkAuth} ></SignUp>}
+                        />
+                        <Route exact path={"/(dashboard|)/"} render = { (props) => 
+                            (this.state.isAuthed ? <Dashboard {...props} user = {this.state.user} signOut = {this.handleLogout} /> : <Redirect to="/login" /> )}
+                        />
                         <Route exact path={"/thankyou/"} component={ThankYou}/>
+                        <Route exact path={"/document/:pk"} render = { (props) => 
+                            <Reader {...props} /> } 
+                        />
+                        <Route exact path={"/create/"} render= { (props) => 
+                            <CreateDocument {...props} user = {this.state.user} />
+                        } />
                     </Switch>
                 </main>
             </div>
