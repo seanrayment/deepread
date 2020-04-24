@@ -13,7 +13,6 @@ class Login extends Component {
         };
     }
 
-
     /**
      * Updates username and passwords states upon change
      */
