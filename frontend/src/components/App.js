@@ -1,7 +1,7 @@
 import React, { Component} from "react";
 import { Switch, Route, Link, Redirect } from "react-router-dom";
-import Login from "./Login";
-import SignUp from "./SignUp";
+import Login from "./login";
+import SignUp from "./signup";
 import ThankYou from "./ThankYou";
 import Dashboard from "./Dashboard";
 import Reader from "./Reader";
@@ -29,6 +29,7 @@ class App extends Component {
     checkAuth = async () => {
         if (localStorage.getItem('access_token')) {
             try {
+                axiosInstance.defaults.headers['Authorization'] = "JWT " + localStorage.getItem('access_token')
                 let res = await axiosInstance.get('/user/'); 
                 this.setState({isAuthed: true, user: res.data});    
             }
@@ -49,7 +50,6 @@ class App extends Component {
         const response = axiosInstance.post('/blacklist/', {
             "refresh_token": localStorage.getItem("refresh_token"),
         }).then(response => {
-            console.log("about to delete the tokens")
             localStorage.removeItem('access_token');
             localStorage.removeItem('refresh_token');
             this.setState({
