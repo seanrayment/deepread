@@ -1,6 +1,7 @@
 from django.db import models
 from authentication.models import CustomUser
 from django.core.exceptions import ValidationError
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 def validate_rgb_hex(value):
     try:
@@ -12,13 +13,13 @@ def validate_rgb_hex(value):
 
 
 class Document(models.Model):
-    GEORGIA = 'georgia'
+    GEORGIA = 'Georgia'
     SERIF = 'serif'
-    TIMES_NEW_ROMAN = 'times_new_roman'
-    ARIAL = 'arial'
-    HELVETICA = 'helvetica'
-    SANS_SERIF = 'sans_serif'
-    TAHOMA = 'tahoma'
+    TIMES_NEW_ROMAN = 'Times New Roman'
+    ARIAL = 'Arial'
+    HELVETICA = 'Helvetica'
+    SANS_SERIF = 'sans-serif'
+    TAHOMA = 'Tahoma'
     FONTS = [
         (GEORGIA, GEORGIA),
         (SERIF, SERIF),
@@ -29,6 +30,7 @@ class Document(models.Model):
         (TAHOMA, TAHOMA),
     ]
 
+    line_height = models.FloatField(default=1.0, validators=[MinValueValidator(0.5), MaxValueValidator(5.0)])
     font_size = models.IntegerField(default=14)
     char_width = models.IntegerField(default=80)
     color = models.CharField(max_length=6, default='000000', validators=[validate_rgb_hex])
