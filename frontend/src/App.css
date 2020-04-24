@@ -385,9 +385,11 @@
   font-family:'Helvetica'
 }
 .reader-prefs{ 
+  width: 100%;
   margin:1rem 0;
   padding:1rem 1rem;
   border:1px solid #e0e0e0;
+  box-sizing: border-box;
 }
 .reader-options-icon{
   float:right;
