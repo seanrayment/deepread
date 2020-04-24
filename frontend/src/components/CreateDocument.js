@@ -23,7 +23,7 @@ class CreateDocument extends Component {
         axiosInstance.post("/documents/", {
             title: this.state.title,
             contents: this.state.contents,
-            font_family: 'arial',
+            font_family: 'Arial',
             color: '000000',
         }).then (result => {
             this.props.history.push(`/document/${result.data.pk}`);
