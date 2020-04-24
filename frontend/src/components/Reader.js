@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axiosInstance from "../axiosApi"
 import { IoMdArrowBack } from 'react-icons/io'
+import ReaderControl from './ReaderControl';
 
 class Reader extends Component {
     constructor(props) {
@@ -13,13 +14,10 @@ class Reader extends Component {
                 fontSize:'',
             },
         }
-
-        
     }
     
     render () {
         if (this.state.file) {
-            console.log(this.state.file.font_family);
             const bodyStyle = {
                 color: `#${this.state.file.color}`,
                 fontFamily: this.state.file.font_family.replace("_", " "),
@@ -30,35 +28,7 @@ class Reader extends Component {
                     <div className = "reader-body">
                         <div className="reader-controls">
                             <IoMdArrowBack style={{width:'36px', height:'36px'}} onClick={() => this.props.history.push("/")} />
-                            <div className="reader-prefs">
-                                <form>
-                                    <select name="fontFamily" onChange={this.handleChange} defaultValue={this.state.file.font_family}>
-                                        <option value="times_new_roman">Times New Roman</option>
-                                        <option value="helvetica">Helvetica</option>
-                                        <option value="arial">Arial</option>
-                                        <option value="georgia">Georgia</option>
-                                        <option value="tahoma">Tahoma</option>
-                                    </select>
-                                    <select name="color" onChange={this.handleChange} defaultValue={this.state.file.color}>
-                                        <option value="E53935">red</option>
-                                        <option selected value="000000">black</option>
-                                        <option value="0288D1">blue</option>
-                                    </select>
-                                    <select name="fontSize" onChange={this.handleChange} defaultValue={this.state.file.font_size}>
-                                        <option value="12">12pt</option>
-                                        <option value="14">14pt</option>
-                                        <option value="16">16pt</option>
-                                        <option value="18">18pt</option>
-                                        <option value="20">20pt</option>
-                                        <option value="24">24pt</option>
-                                    </select>
-                                    <select name="lineHeight" onChange={this.handleChange} defaultValue={this.state.file.font_size}>
-                                        <option value="1">1</option>
-                                        <option value="1.5">1.5</option>
-                                        <option value="2">2</option>
-                                    </select>
-                                </form>
-                            </div>
+                            <ReaderControl file={this.state.file} handleSelectChange = {this.handleSelectChange} handleColorChange = {this.handleColorChange} ></ReaderControl>
                         </div>
                         <div className="reader-main">
                             <h1>{this.state.file.title}</h1>
@@ -72,22 +42,33 @@ class Reader extends Component {
         }
         return ( <div></div> )
     }
+    handleColorChange = async(event) => {
+        await this.updateColorPref(event);
+        this.updateFile()
+    }
 
-    handleChange = async(event) => {
-        await this.updatePref(event);
+    updateColorPref = async(event) => {
+        this.setState( {
+            prefs: {
+                color: event.hex.substring(1),
+            }
+        })
+    }
+
+    handleSelectChange = async(event, meta) => {
+        await this.updateSelectPref(event, meta);
         this.updateFile(event);
     }
 
-    updatePref = (event) => {
+    updateSelectPref = (event, meta) => {
         this.setState ( {
             prefs: {
-                [event.target.name]: event.target.value,
+                [meta.name]: event.value,
             }
         })
-        console.log(this.state)
     }
 
-    updateFile = async(event) => {
+    updateFile = async() => {
         try {
             let resp = await axiosInstance.put(`/documents/${this.props.match.params.pk}/`, {
                 font_family: this.state.prefs.fontFamily,
