@@ -1,7 +1,7 @@
 import React, { Component} from "react";
-import { Switch, Route, Link, Redirect } from "react-router-dom";
-import Login from "./login";
-import SignUp from "./signup";
+import { Switch, Route, Redirect } from "react-router-dom";
+import Login from "./Login";
+import SignUp from "./SignUp";
 import ThankYou from "./ThankYou";
 import Dashboard from "./Dashboard";
 import Reader from "./Reader";
