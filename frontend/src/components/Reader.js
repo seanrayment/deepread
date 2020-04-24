@@ -57,7 +57,7 @@ class Reader extends Component {
                                 <select name="lineHeight" onChange={this.handleChange} defaultValue={this.state.file.font_size}>
                                     <option value="1">1</option>
                                     <option value="1.5">1.5</option>
-                                    <option value="2">16px</option>
+                                    <option value="2">2</option>
                                 </select>
                             </form>
                         </div>
@@ -81,6 +81,7 @@ class Reader extends Component {
         })
         console.log(this.state)
     }
+
     updateFile = async(event) => {
         try {
             let resp = await axiosInstance.put(`/documents/${this.props.match.params.pk}/`, {

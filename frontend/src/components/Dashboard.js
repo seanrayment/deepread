@@ -68,7 +68,7 @@ class Dashboard extends Component {
     } 
 
     renderFiles = () => {
-        return this.state.fileList.map(
+        return this.state.fileList.filter(file => file.title.toLowerCase().includes(this.state.searchChars)).map(
             (file) => {
                 return (<File selectFile={this.goToReader} file={file}></File>)
             }
