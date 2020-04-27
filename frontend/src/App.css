@@ -148,6 +148,9 @@
   border-radius:5px;
   z-index:0;
 }
+.nav-link{
+  color:white;
+}
 
 .create-doc{
   background-color:#723EE0;
@@ -281,11 +284,11 @@
 }
 
 .files-content textarea{
-  width:75%;
   height:25em;
   padding:.33rem;
   margin-top:4px;
   border: 1px solid #E0E0E0;
+  width:66%;
 }
 
 .files-content input[type="text"]{
@@ -331,6 +334,8 @@
   display:flex;
   width:100vw;
   padding:4rem 0;
+  padding-bottom:0;
+  height:100vh;
   box-sizing: border-box;
 }
 
@@ -339,17 +344,38 @@
 }
 .reader-controls{
   position: sticky;
-  display:inline-block;
-  height:100vh;
+  align-self: flex-start;
+  top:0;
+}
+.reader-control-wrap{
+  padding:2rem 0;
 }
 .reader-highlight-box{
   width:64px;
   cursor:pointer;
   height:36px;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  margin-left:auto;
+  margin-right:0;
 }
 
 .reader-controls, .reader-annotations{
   flex:1;
+}
+.reader-panel-close-box{
+  width:100%;
+  text-align: right;
+  margin-bottom:1rem;
+}
+.reader-panel-close{
+  color:#9E9E9E;
+}
+
+
+.reader-select {
+  background-color:blue;
 }
 
 .reader-body p {
@@ -361,11 +387,26 @@
 .reader-prefs{ 
   width: 100%;
   margin:1rem 0;
-  padding:1rem 0;
+  padding:1rem 1rem;
   border:1px solid #e0e0e0;
 }
+.reader-options-icon{
+  float:right;
+  width:36px;
+  height:36px;
+  margin-top:1rem;
+}
+.reader-options-icon:hover{
+  opacity:.8;
+}
 
-.nav-link{
-  color:white;
+.reader-colors-wrap *{
+  z-index:0 !important;
+  box-shadow: none !important;
+}
+
+.reader-prefs p{
+  font-weight:500;
+  margin-bottom:.75rem;
 }
 

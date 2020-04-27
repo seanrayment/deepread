@@ -8,6 +8,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
+import ReaderControl from './ReaderControl';
 
 // styling to be applied dynamically via material-ui
 const styles = theme => ({
@@ -57,35 +58,7 @@ class Reader extends Component {
                     <div className="reader-body">
                         <div className="reader-controls">
                             <IoMdArrowBack style={{width:'36px', height:'36px'}} onClick={() => this.props.history.push("/")} />
-                            <div className="reader-prefs">
-                                <form>
-                                    <select name="fontFamily" onChange={this.handleChange} defaultValue={this.state.file.font_family}>
-                                        <option value="Times New Roman">Times New Roman</option>
-                                        <option value="Helvetica">Helvetica</option>
-                                        <option value="Arial">Arial</option>
-                                        <option value="Georgia">Georgia</option>
-                                        <option value="Tahoma">Tahoma</option>
-                                    </select>
-                                    <select name="color" onChange={this.handleChange} defaultValue={this.state.file.color}>
-                                        <option value="E53935">red</option>
-                                        <option selected value="000000">black</option>
-                                        <option value="0288D1">blue</option>
-                                    </select>
-                                    <select name="fontSize" onChange={this.handleChange} defaultValue={this.state.file.font_size}>
-                                        <option value="12">12pt</option>
-                                        <option value="14">14pt</option>
-                                        <option value="16">16pt</option>
-                                        <option value="18">18pt</option>
-                                        <option value="20">20pt</option>
-                                        <option value="24">24pt</option>
-                                    </select>
-                                    <select name="lineHeight" onChange={this.handleChange} defaultValue={this.state.file.font_size}>
-                                        <option value="1">1</option>
-                                        <option value="1.5">1.5</option>
-                                        <option value="2">2</option>
-                                    </select>
-                                </form>
-                            </div>
+                            <ReaderControl file={this.state.file} handleSelectChange = {this.handleSelectChange} handleColorChange = {this.handleColorChange} ></ReaderControl>
                         </div>
                         <div className="reader-main">
                             <h1>{this.state.file.title}</h1>
@@ -166,13 +139,26 @@ class Reader extends Component {
         return ( <div></div> );
     }
 
+    handleColorChange = async(event) => {
+        await this.updateColorPref(event);
+        await this.updateFile();
+    }
+
+    updateColorPref = async(event) => {
+        this.setState( {
+            prefs: {
+                color: event.hex.substring(1),
+            }
+        });
+    }
+ 
     handleClick = () => {
-        this.setState({ displayColorPicker: !this.state.displayColorPicker })
-      };
+        this.setState({ displayColorPicker: !this.state.displayColorPicker });
+    }
     
     handleClose = () => {
-    this.setState({ displayColorPicker: false })
-    };
+        this.setState({ displayColorPicker: false });
+    }
 
     handleChange = async(name, event, value) => {
         await this.setState({
@@ -183,13 +169,19 @@ class Reader extends Component {
         await this.updateFile();
     }
 
-    updatePref = (event) => {
+    handleSelectChange = async(event, meta) => {
+        await this.updateSelectPref(event, meta);
+        await this.updateFile(event);
+    }
+
+    updateSelectPref = (event, meta) => {
+        console.log(meta.name);
+        console.log(event.value);
         this.setState ( {
             prefs: {
-                [event.target.name]: event.target.value,
+                [meta.name]: event.value,
             }
-        })
-        console.log(this.state)
+        });
     }
 
     updateFile = async() => {
