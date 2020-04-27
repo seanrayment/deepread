@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import axiosInstance from "../axiosApi"
 import { IoMdArrowBack } from 'react-icons/io'
-import Typography from '@material-ui/core/Typography';
-import Slider from '@material-ui/core/Slider';
+import Typography from '@material-ui/core/Typography'
+import Slider from '@material-ui/core/Slider'
 import { withStyles } from '@material-ui/core/styles'
 import MenuItem from '@material-ui/core/MenuItem'
 import InputLabel from '@material-ui/core/InputLabel'
@@ -50,16 +50,47 @@ class Reader extends Component {
             const bodyStyle = {
                 color: `#${this.state.file.color}`,
                 fontFamily: this.state.file.font_family,
-                fontSize: `${this.state.file.font_size}px`,
+                fontSize: `${this.state.file.font_size}pt`,
                 lineHeight: `${this.state.file.line_height}`
               };
             return (
-                <div>
-                    <div className = "reader-body">
-                        <IoMdArrowBack style={{width:'36px', height:'36px'}} onClick={() => this.props.history.push("/")}></IoMdArrowBack>
-                        <h1>{this.state.file.title}</h1>
-                        <p style={bodyStyle}>{this.state.file.contents}</p>
-                        <div className="reader-prefs">
+                    <div className="reader-body">
+                        <div className="reader-controls">
+                            <IoMdArrowBack style={{width:'36px', height:'36px'}} onClick={() => this.props.history.push("/")} />
+                            <div className="reader-prefs">
+                                <form>
+                                    <select name="fontFamily" onChange={this.handleChange} defaultValue={this.state.file.font_family}>
+                                        <option value="Times New Roman">Times New Roman</option>
+                                        <option value="Helvetica">Helvetica</option>
+                                        <option value="Arial">Arial</option>
+                                        <option value="Georgia">Georgia</option>
+                                        <option value="Tahoma">Tahoma</option>
+                                    </select>
+                                    <select name="color" onChange={this.handleChange} defaultValue={this.state.file.color}>
+                                        <option value="E53935">red</option>
+                                        <option selected value="000000">black</option>
+                                        <option value="0288D1">blue</option>
+                                    </select>
+                                    <select name="fontSize" onChange={this.handleChange} defaultValue={this.state.file.font_size}>
+                                        <option value="12">12pt</option>
+                                        <option value="14">14pt</option>
+                                        <option value="16">16pt</option>
+                                        <option value="18">18pt</option>
+                                        <option value="20">20pt</option>
+                                        <option value="24">24pt</option>
+                                    </select>
+                                    <select name="lineHeight" onChange={this.handleChange} defaultValue={this.state.file.font_size}>
+                                        <option value="1">1</option>
+                                        <option value="1.5">1.5</option>
+                                        <option value="2">2</option>
+                                    </select>
+                                </form>
+                            </div>
+                        </div>
+                        <div className="reader-main">
+                            <h1>{this.state.file.title}</h1>
+                            <p style={bodyStyle}>{this.state.file.contents}</p>
+                            <div className="reader-prefs">
                             <form>
                                 <FormControl className={classes.formControl}>
                                     <InputLabel id="demo-simple-select-label">Font</InputLabel>
@@ -126,11 +157,13 @@ class Reader extends Component {
                                 </FormControl>
                             </form>
                         </div>
+                        </div>
+                        <div className="reader-annotations">
+                        </div>
                     </div> 
-                </div>
             );
         }
-        return ( <div></div> )
+        return ( <div></div> );
     }
 
     handleClick = () => {
