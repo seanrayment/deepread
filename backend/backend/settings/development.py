@@ -3,6 +3,13 @@ from .common import *
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '-((6j3w=hz(i=m%lpr7(a-^7bkksc^e9c3=6#pkzo5y)$wu*y5'
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=10),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=14),
