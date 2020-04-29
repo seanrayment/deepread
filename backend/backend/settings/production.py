@@ -2,7 +2,7 @@ from .common import *
 import os
 import dj_database_url
 
-DEBUG = False
+DEBUG = os.environ['DJANGO_DEBUG']
 
 SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 
