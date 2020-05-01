@@ -1,7 +1,8 @@
 import axios from 'axios'
 
-const host = process.env.NODE_ENV === 'production' ? 'https://deepread-backend.herokuapp.com' : 'localhost:8000';
+const host = process.env.NODE_ENV === 'production' ? 'https://deepread-backend.herokuapp.com' : 'http://127.0.0.1:8000';
 console.log(process.env.NODE_ENV);
+console.log(host)
 
 const axiosInstance = axios.create({
     baseURL: `${host}/api/`,

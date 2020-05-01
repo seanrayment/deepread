@@ -28,4 +28,4 @@ DATABASES = {
 
 ALLOWED_HOSTS = ['deepread-backend.herokuapp.com', 'deepread-backend.herokuapp.com/', '127.0.0.1']
 
-CORS_ORIGIN_WHITELIST += 'https://deepread-frontend'
+CORS_ORIGIN_WHITELIST += 'https://deepread-frontend.herokuapp.com'
