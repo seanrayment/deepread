@@ -1,5 +1,4 @@
 import axios from 'axios'
-import process from 'process'
 
 const host = process.env.NODE_ENV === 'production' ? 'https://deepread-backend.herokuapp.com' : 'localhost:8000';
 console.log(process.env.NODE_ENV);
