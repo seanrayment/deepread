@@ -226,6 +226,8 @@
 }
 .files-control{
   display:flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 .files-control input[type="search"] {
   margin:1rem 0;
@@ -260,6 +262,18 @@
 }
 .file-metadata{
   display:flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.file-metadata p {
+  padding: 5px;
+  margin: 0;
+}
+
+.file-metadata-descriptor {
+  font-size: 14px;
+  color: #1e1e1e;
 }
 
 .files-content table td {
@@ -348,7 +362,7 @@
   top:0;
 }
 .reader-control-wrap{
-  padding:2rem 0;
+  padding: 1rem;
 }
 .reader-highlight-box{
   width:64px;
@@ -397,7 +411,7 @@
   margin-top:1rem;
 }
 .reader-options-icon:hover{
-  opacity:.8;
+  opacity:.7;
 }
 
 .reader-colors-wrap *{

@@ -8,4 +8,4 @@ class DocumentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Document
-        fields = ('pk', 'owner', 'num_chars', 'contents', 'title', 'font_family', 'color', 'font_size', 'char_width', 'line_height')
+        fields = ('pk', 'owner', 'num_chars', 'contents', 'title', 'font_family', 'color', 'font_size', 'char_width', 'line_height', 'created_at', 'updated_at')

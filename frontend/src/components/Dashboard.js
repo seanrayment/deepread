@@ -3,21 +3,36 @@ import File from "./File"
 import { Link } from "react-router-dom";
 import { FaChevronDown } from 'react-icons/fa';
 import axiosInstance from '../axiosApi';
+import moment from 'moment';
+import Select from 'react-select';
 
-/**
- * TODO: create a Files component and move create document to be nested here
- */
+const selectStyle = {
+    control: (provided, state) => ({
+        ...provided,
+        border:'1px solid #e0e0e0',
+        margin: '1rem 0',
+        padding: '0 .5rem',
+        width: '250px',
+    })
+}
+
+const sortOptions = [
+    {value: "created_at" , label: "Date Created"},
+    {value: "updated_at" , label: "Date Updated"},
+]
+
 class Dashboard extends Component {
     constructor(props){
         super(props);
         this.state = {
             fileList: [],
             searchChars: "",
-            
+            sortField: "",
         }
     }
 
     render() {
+        console.log("re-rendered")
         return (
             <div className="files-body">
                 <div className="header">
@@ -42,6 +57,13 @@ class Dashboard extends Component {
                     <h2>Documents</h2>
                         <div className="files-control">
                             <input type="search" placeholder="Search for documents" onChange={this.updateSearch}></input>
+                            <Select 
+                                    options={sortOptions}
+                                    name="sortField"
+                                    styles={selectStyle}
+                                    onChange={this.handleSelectChange} 
+                                    placeholder="Sort by"
+                                />
                         </div>
                     </div>
                     <table>
@@ -56,6 +78,14 @@ class Dashboard extends Component {
             </div>
         );
     }
+
+    handleSelectChange = (event, meta) => {
+        console.log(meta.name);
+        this.setState ( {
+                [meta.name]: event.value,
+        });
+    }
+
     getDocs = () => {
         let response = axiosInstance.get('/documents/')
             .then(
@@ -68,8 +98,20 @@ class Dashboard extends Component {
     } 
 
     renderFiles = () => {
-        return this.state.fileList.filter(file => file.title.toLowerCase().includes(this.state.searchChars)).map(
+        let fileList = this.state.fileList;
+
+        switch (this.state.sortField) {
+            case "created_at":
+                fileList = fileList.sort((f1, f2) => moment(f2.created_at) - moment(f1.created_at));
+                break;
+            case "updated_at":
+                fileList = fileList.sort((f1, f2) => moment(f2.updated_at) - moment(f1.updated_at));
+                break;
+        }        
+
+        return fileList.filter(file => file.title.toLowerCase().includes(this.state.searchChars)).map(
             (file) => {
+                console.log(file.created_at)
                 return (<File selectFile={this.goToReader} file={file}></File>)
             }
         );

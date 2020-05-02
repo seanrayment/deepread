@@ -3,6 +3,11 @@ import { FaHighlighter } from 'react-icons/fa'
 import { IoMdOptions, IoMdClose } from 'react-icons/io'
 import Select from 'react-select';
 import { CompactPicker } from 'react-color';
+import Typography from '@material-ui/core/Typography'
+import Slider from '@material-ui/core/Slider'
+import FormControl from '@material-ui/core/FormControl'
+import { withStyles } from '@material-ui/core/styles'
+
 
 const swatch = ["#000000","#424242", "#9E9E9E", "#1565C0", "#E53935", "#4CAF50"]
 
@@ -17,6 +22,23 @@ const selectStyle = {
 const colorStyle = {
     boxShadow: "none"
 }
+
+const styles = theme => ({
+    formControl: {
+        margin: theme.spacing(1),
+        width: '90%',
+      },
+      selectEmpty: {
+        marginTop: theme.spacing(2)
+      },
+      slider: {
+        width: 200,
+        fontSize: 16,
+      },
+      textField: {
+          width: '10ch',
+      }
+});
 
 const fontOptions = [
     {value: "Times New Roman" , label: "Times New Roman"},
@@ -38,8 +60,9 @@ const fontSize = [
 
 
 class ReaderControl extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+        console.log(props.file.char_width)
         this.state = {
             displayPanel: false,
             useHighlighter: true,
@@ -55,6 +78,8 @@ class ReaderControl extends Component {
     }
 
     render(){
+        const { classes } = this.props;
+
         return (
             <div className="reader-control-wrap">
                 <div className="reader-highlight-box" onClick={this.handleHighlighter} style={{border:this.state.useHighlighter ? '1px solid #723EE0' : '1px solid #E0E0E0'}}>
@@ -75,16 +100,56 @@ class ReaderControl extends Component {
                                     defaultValue={ {label: this.props.file.font_family, value: this.props.file.font_family } }
                                     onChange={this.props.handleSelectChange} placeholder="Select font"
                                 />
-                                <Select 
-                                    options={fontSize}
-                                    name="font_size"
-                                    styles={selectStyle}
-                                    defaultValue={ {label:`${this.props.file.font_size}pt`, value: this.props.file.font_size } }
-                                    onChange={this.props.handleSelectChange}
-                                    placeholder="Select font" /> 
+                                <FormControl className={classes.formControl}>
+                                    <Typography id="discrete-slider">
+                                        Size
+                                    </Typography>
+                                    <Slider
+                                        defaultValue={this.props.file.font_size}
+                                        onChangeCommitted={(event, value) => this.props.handleChange("font_size", event, value)}
+                                        aria-labelledby="discrete-slider"
+                                        valueLabelDisplay="auto"
+                                        step={2}
+                                        marks
+                                        min={8}
+                                        max={48}
+                                        name="font_size"
+                                    />
+                                </FormControl>
                                 <div className="reader-colors-wrap">
                                     <CompactPicker color={`#${this.props.file.color}`} colors={swatch} onChange={this.props.handleColorChange} zDepth={0}/> 
                                 </div>
+                                <FormControl className={classes.formControl}>
+                                    <Typography id="discrete-slider">
+                                        Line Height
+                                    </Typography>
+                                    <Slider
+                                        defaultValue={this.props.file.line_height}
+                                        onChangeCommitted={(event, value) => this.props.handleChange("line_height", event, value)}
+                                        aria-labelledby="discrete-slider"
+                                        valueLabelDisplay="auto"
+                                        step={.25}
+                                        marks
+                                        min={.5}
+                                        max={4.0}
+                                        name="line_height"
+                                    />
+                                </FormControl>
+                                <FormControl className={classes.formControl}>
+                                    <Typography id="discrete-slider">
+                                        Text Width
+                                    </Typography>
+                                    <Slider
+                                        defaultValue={this.props.file && this.props.file.char_width ? this.props.file.char_width : 80 }
+                                        onChangeCommitted={(event, value) => this.props.handleChange("char_width", event, value)}
+                                        aria-labelledby="discrete-slider"
+                                        valueLabelDisplay="auto"
+                                        step={1}
+                                        min={40}
+                                        max={120}
+                                        name="char_width"
+                                    />
+                                </FormControl>
                             </div>
                         </form>
                     </div>
@@ -97,4 +162,4 @@ class ReaderControl extends Component {
     }
 }
 
-export default ReaderControl;
+export default withStyles(styles)(ReaderControl);

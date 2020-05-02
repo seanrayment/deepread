@@ -39,6 +39,9 @@ class Document(models.Model):
     num_chars = models.IntegerField(default=0)
     contents = models.TextField(blank=True)
     title = models.TextField(blank=False, default="My new document")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
 
     def save(self, *args, **kwargs):
         self.num_chars = len(self.contents)

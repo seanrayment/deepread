@@ -39,7 +39,7 @@ class Reader extends Component {
                 color: '',
                 font_size:'',
                 line_height: '',
-
+                char_width: '',
             },
         }
     }
@@ -52,84 +52,18 @@ class Reader extends Component {
                 color: `#${this.state.file.color}`,
                 fontFamily: this.state.file.font_family,
                 fontSize: `${this.state.file.font_size}pt`,
-                lineHeight: `${this.state.file.line_height}`
+                lineHeight: `${this.state.file.line_height}`,
+                width: `${this.state.file.char_width}ch`
               };
             return (
                     <div className="reader-body">
                         <div className="reader-controls">
                             <IoMdArrowBack style={{width:'36px', height:'36px'}} onClick={() => this.props.history.push("/")} />
-                            <ReaderControl file={this.state.file} handleSelectChange = {this.handleSelectChange} handleColorChange = {this.handleColorChange} ></ReaderControl>
+                            <ReaderControl file={this.state.file} handleChange = {this.handleChange} handleSelectChange = {this.handleSelectChange} handleColorChange = {this.handleColorChange} ></ReaderControl>
                         </div>
                         <div className="reader-main">
                             <h1>{this.state.file.title}</h1>
                             <p style={bodyStyle}>{this.state.file.contents}</p>
-                            <div className="reader-prefs">
-                            <form>
-                                <FormControl className={classes.formControl}>
-                                    <InputLabel id="demo-simple-select-label">Font</InputLabel>
-                                    <Select
-                                    id="demo-simple-select"
-                                    name="font_family"
-                                    value={this.state.file.font_family}
-                                    onChange={(event) => this.handleChange("font_family", event, event.target.value)}
-                                    >
-                                    <MenuItem value={"Times New Roman"}>Times New Roman</MenuItem>
-                                    <MenuItem value={"Helvetica"}>Helvetica</MenuItem>
-                                    <MenuItem value={"Arial"}>Arial</MenuItem>
-                                    <MenuItem value={"Georgia"}>Georgia</MenuItem>
-                                    <MenuItem value={"Tahoma"}>Tahoma</MenuItem>
-                                    </Select>
-                                </FormControl>
-
-                                <FormControl className={classes.formControl}>
-                                    <InputLabel id="demo-simple-select-label">Color</InputLabel>
-                                    <Select
-                                    id="demo-simple-select"
-                                    name="color"
-                                    value={this.state.file.color}
-                                    onChange={(event) => this.handleChange("color", event, event.target.value)}
-                                    >
-                                    <MenuItem value={"E53935"}>red</MenuItem>
-                                    <MenuItem value={"000000"}>black</MenuItem>
-                                    <MenuItem value={"0288D1"}>blue</MenuItem>
-                                    </Select>
-                                </FormControl>
-
-                                <FormControl className={classes.formControl}>
-                                <Typography id="discrete-slider">
-                                    Size
-                                </Typography>
-                                <Slider
-                                    defaultValue={16}
-                                    onChangeCommitted={(event, value) => this.handleChange("font_size", event, value)}
-                                    aria-labelledby="discrete-slider"
-                                    valueLabelDisplay="auto"
-                                    step={2}
-                                    marks
-                                    min={8}
-                                    max={48}
-                                    name="font_size"
-                                />
-                                </FormControl>
-
-                                <FormControl className={classes.formControl}>
-                                <Typography id="discrete-slider">
-                                    Line Height
-                                </Typography>
-                                <Slider
-                                    defaultValue={this.state.file.line_height}
-                                    onChangeCommitted={(event, value) => this.handleChange("line_height", event, value)}
-                                    aria-labelledby="discrete-slider"
-                                    valueLabelDisplay="auto"
-                                    step={.25}
-                                    marks
-                                    min={.5}
-                                    max={4.0}
-                                    name="line_height"
-                                />
-                                </FormControl>
-                            </form>
-                        </div>
                         </div>
                         <div className="reader-annotations">
                         </div>
@@ -191,6 +125,7 @@ class Reader extends Component {
                 color: this.state.prefs.color,
                 font_size: this.state.prefs.font_size,
                 line_height: this.state.prefs.line_height,
+                char_width: this.state.prefs.char_width,
             })
             this.setState({
                 file: resp.data,
