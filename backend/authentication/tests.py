@@ -2,8 +2,10 @@ from django.test import TestCase
 from rest_framework import status
 from .models import CustomUser
 from .serializers import CustomUserSerializer
-from .views import CustomUserCreate, ObtainTokenPairWithColorView
+from .views import CustomUserCreate, ObtainTokenPairWithColorView, LogoutAndBlacklistRefreshTokenForUserView, CustomUserGet
+from rest_framework_simplejwt import views as jwt_views
 from rest_framework.test import APIRequestFactory
+from rest_framework.test import APIClient
 import json
 
 class CustomUserTest(TestCase):
@@ -58,6 +60,7 @@ class CustomUserViewTest(TestCase):
 
     def setUp(self):
         self.factory = APIRequestFactory()
+        self.client = APIClient()
         self.custom_user_attributes = {
             "username": "sar5498",
             "email": "sar5498@gmail.com",
@@ -73,6 +76,11 @@ class CustomUserViewTest(TestCase):
         self.login_credentials = {
             "username": "sar5498",
             "password": "longenoughpassword"
+        }
+
+        self.invalid_credentials = {
+            "username": "sar5498",
+            "password": "wrongpassword"
         }
 
     def test_user_create(self):
@@ -101,15 +109,59 @@ class CustomUserViewTest(TestCase):
         response_dict = json.loads(response.content)
         self.assertTrue("refresh" in response_dict and "access" in response_dict)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        auth_string = "JWT " + response_dict["access"]
+        self.client.credentials(HTTP_AUTHORIZATION=auth_string)
+        response = self.client.get('/api/user/')
+        response_dict = json.loads(response.content)
+        self.assertTrue("email" in response_dict and "username" in response_dict)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    
+    def test_user_get_401(self):
+        response = self.client.get('/api/user/')
+        response_dict = json.loads(response.content)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
-    # user views
-        # can create a user w/ correct information
-        # returns 404 if given incorrect information
-        # can obtain a token with correct information
-        # gets rejected with wrong information
-        # refresh works if token is not expired
-        # fails if token is blacklisted
-        # can get user info if authed as that user
-        # do not get user info if not authenticated
+    def test_blacklisted_token(self):
+        self.serializer = CustomUserSerializer(data=self.custom_user_attributes)
+        self.assertTrue(self.serializer.is_valid())
+        self.user = self.serializer.save()        
+        request = self.factory.post('/api/token/obtain/', json.dumps(self.login_credentials), content_type='application/json')
+        view = ObtainTokenPairWithColorView.as_view()
+        response = view(request)
+        response.render()
+        response_dict = json.loads(response.content)
+        self.assertTrue("refresh" in response_dict and "access" in response_dict)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        auth_string = "JWT " + response_dict["access"]
+        self.client.credentials(HTTP_AUTHORIZATION=auth_string)
+        response = self.client.post('/api/blacklist/', {"refresh_token": response_dict["refresh"]})
+        response = self.client.post('/api/token/refresh/', {"refresh": response_dict["refresh"]})
+        response_dict = json.loads(response.content)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_obtain_token_401(self):
+        self.serializer = CustomUserSerializer(data=self.custom_user_attributes)
+        self.assertTrue(self.serializer.is_valid())
+        self.user = self.serializer.save()
+        request = self.factory.post('/api/token/obtain/', json.dumps(self.invalid_credentials), content_type='application/json')
+        view = ObtainTokenPairWithColorView.as_view()
+        response = view(request)
+        response.render()
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_refresh_token(self):
+        self.serializer = CustomUserSerializer(data=self.custom_user_attributes)
+        self.assertTrue(self.serializer.is_valid())
+        self.user = self.serializer.save()        
+        request = self.factory.post('/api/token/obtain/', json.dumps(self.login_credentials), content_type='application/json')
+        view = ObtainTokenPairWithColorView.as_view()
+        response = view(request)
+        response.render()
+        response_dict = json.loads(response.content)
+        request = self.factory.post('/api/token/refresh/', json.dumps({"refresh": response_dict["refresh"]}), content_type='application/json')
+        view = jwt_views.TokenRefreshView.as_view()
+        response = view(request)
+        response.render()
+        response_dict = json.loads(response.content)
+        self.assertTrue("refresh" in response_dict and "access" in response_dict)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)

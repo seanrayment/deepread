@@ -36,7 +36,6 @@ class CustomUserGet(APIView):
 
     def get(self, request, format='json'):
         user = self.get_user(request.user.username)
-        print(user)
         serializer = CustomUserSerializer(user)
         return Response(serializer.data)
 
@@ -44,7 +43,6 @@ class CustomUserGet(APIView):
 class HelloWorldView(APIView):
 
     def get(self, request):
-        print(request.user)
         return Response(data={"hello":"world"}, status=status.HTTP_200_OK)
 
 class LogoutAndBlacklistRefreshTokenForUserView(APIView):
@@ -52,12 +50,10 @@ class LogoutAndBlacklistRefreshTokenForUserView(APIView):
     authentication_classes = ()
 
     def post(self, request):
-        print("logout request received")
         try:
             refresh_token = request.data["refresh_token"]
             token = RefreshToken(refresh_token)
             token.blacklist()
             return Response(status=status.HTTP_205_RESET_CONTENT)
         except Exception as e:
-            print(e)
             return Response(status=status.HTTP_400_BAD_REQUEST)
