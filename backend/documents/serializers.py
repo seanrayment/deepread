@@ -61,4 +61,12 @@ class DocumentSerializer(serializers.ModelSerializer):
             'updated_at',
             'highlights',
             'annotations')
+    
+    def create(self, validated_data):
+        highlights = validated_data.pop('highlights')
+        document = Document.objects.create(**validated_data)
+        [Highlight.objects.create(document=document, **h_data) for h_data in highlights]
+        return document
+
+
 
