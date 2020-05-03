@@ -35,6 +35,7 @@ class Reader extends Component {
                 line_height: '',
                 char_width: '',
                 highlights: [],
+                annotations: [],
             },
         }
     }
@@ -58,7 +59,11 @@ class Reader extends Component {
                         </div>
                         <div className="reader-main">
                             <h1>{this.state.file.title}</h1>
-                            <p style={bodyStyle}>{this.state.file.contents}</p>
+                            <p 
+                                style={bodyStyle} 
+                                dangerouslySetInnerHTML={ {__html: this.buildText() } }>
+                                
+                            </p>
                         </div>
                         <div className="reader-annotations">
                         </div>
@@ -66,6 +71,15 @@ class Reader extends Component {
             );
         }
         return ( <div></div> );
+    }
+
+    buildText = () => {
+        let splitContents = this.state.file.contents.split('');
+        this.state.file.highlights.forEach(h => {
+            splitContents[h.start_char] = "<span class='highlight'>" + splitContents[h.start_char];
+            splitContents[h.end_char] = splitContents[h.end_char] + "</span>";
+        }) 
+        return splitContents.join('');
     }
 
     handleColorChange = async(event) => {

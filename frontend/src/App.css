@@ -353,6 +353,10 @@
   box-sizing: border-box;
 }
 
+span.highlight {
+  background-color: #fff2ac;
+}
+
 .reader-main{
   width:50%;
 }

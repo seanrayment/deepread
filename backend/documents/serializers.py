@@ -8,6 +8,7 @@ class HighlightSerializer(serializers.ModelSerializer):
     class Meta:
         model = Highlight
         fields = (
+            'pk',
             'document',
             'start_char',
             'end_char'
@@ -24,6 +25,7 @@ class AnnotationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Annotation
         fields = (
+            'pk',
             'document',
             'start_char',
             'end_char',
