@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Document, Highlight
+from .models import Document, Highlight, Annotation
 
 class HighlightAdmin(admin.ModelAdmin):
     model = Highlight
@@ -7,9 +7,16 @@ class HighlightAdmin(admin.ModelAdmin):
 class HighlightInline(admin.TabularInline):
     model = Highlight
 
+class AnnotationAdmin(admin.ModelAdmin):
+    model = Annotation
+
+class AnnotationInline(admin.TabularInline):
+    model = Annotation
+
 class DocumentAdmin(admin.ModelAdmin):
     inlines = [
         HighlightInline,
+        AnnotationInline
     ]
     model = Document
 
@@ -24,3 +31,4 @@ class DocumentAdmin(admin.ModelAdmin):
 
 admin.site.register(Document, DocumentAdmin)
 admin.site.register(Highlight, HighlightAdmin)
+admin.site.register(Annotation, AnnotationAdmin)

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Document, Highlight
+from .models import Document, Highlight, Annotation
 from authentication.serializers import CustomUserSerializer
 from authentication.models import CustomUser
 
@@ -15,17 +15,32 @@ class HighlightSerializer(serializers.ModelSerializer):
     
     def validate(self, data):
         print(data)
-        if data["start_char"] > data["end_char"]:
+        if data["start_char"] >= data["end_char"]:
             raise serializers.ValidationError("Start of highlight must occur before end of highlight")
-        # TODO : are we actually pulling the document object out or is it the title
-        # if data["end_char"] >= data["document"].num_chars:
-        #     raise serializers.ValidationError("Cannot highlight past the end of the document")
+        return data
+
+class AnnotationSerializer(serializers.ModelSerializer):
+    document = serializers.ReadOnlyField(source='document.title')
+    class Meta:
+        model = Annotation
+        fields = (
+            'document',
+            'start_char',
+            'end_char',
+            'contents'
+        )
+    
+    def validate(self, data):
+        print(data)
+        if data["start_char"] >= data["end_char"]:
+            raise serializers.ValidationError("Start of annotation must occur before end of highlight")
         return data
             
 
 class DocumentSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
     highlights = HighlightSerializer(many=True, required=False)
+    annotations = AnnotationSerializer(many=True, required=False)
 
     class Meta:
         model = Document
@@ -42,5 +57,6 @@ class DocumentSerializer(serializers.ModelSerializer):
             'line_height', 
             'created_at', 
             'updated_at',
-            'highlights')
+            'highlights',
+            'annotations')
 

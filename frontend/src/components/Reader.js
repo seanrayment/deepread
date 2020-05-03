@@ -1,13 +1,7 @@
 import React, { Component } from 'react'
 import axiosInstance from "../axiosApi"
 import { IoMdArrowBack } from 'react-icons/io'
-import Typography from '@material-ui/core/Typography'
-import Slider from '@material-ui/core/Slider'
 import { withStyles } from '@material-ui/core/styles'
-import MenuItem from '@material-ui/core/MenuItem'
-import InputLabel from '@material-ui/core/InputLabel'
-import FormControl from '@material-ui/core/FormControl'
-import Select from '@material-ui/core/Select'
 import ReaderControl from './ReaderControl';
 
 // styling to be applied dynamically via material-ui
@@ -40,6 +34,7 @@ class Reader extends Component {
                 font_size:'',
                 line_height: '',
                 char_width: '',
+                highlights: [],
             },
         }
     }
