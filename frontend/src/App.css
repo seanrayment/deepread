@@ -263,6 +263,7 @@
 .file-metadata{
   display:flex;
   flex-direction: column;
+  font-weight:200;
   justify-content: center;
 }
 
@@ -273,7 +274,10 @@
 
 .file-metadata-descriptor {
   font-size: 14px;
-  color: #1e1e1e;
+  color: #757575;
+}
+
+.file-metadata-descriptor span {
 }
 
 .files-content table td {
@@ -364,6 +368,7 @@ span.highlight {
   position: sticky;
   align-self: flex-start;
   top:0;
+  box-sizing: border-box;
 }
 .reader-control-wrap{
   padding: 1rem;
@@ -409,6 +414,7 @@ span.highlight {
   padding:1rem 1rem;
   border:1px solid #e0e0e0;
   box-sizing: border-box;
+  position:absolute;
 }
 .reader-options-icon{
   float:right;
