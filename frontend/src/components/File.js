@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+var moment = require('moment')
 
 class File extends Component{
     constructor(props){
@@ -16,7 +17,8 @@ class File extends Component{
                 </td>
                 <td>
                     <div className="file-metadata">
-                        <p>hello</p>
+                        <p><span className="file-metadata-descriptor">last modified:</span> {moment(this.props.file.updated_at).fromNow() }</p>
+                        <p><span className="file-metadata-descriptor">created on:</span> {moment(this.props.file.created_at).format('MMMM D YYYY')}</p>
                     </div>
                 </td>
             </tr>

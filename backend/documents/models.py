@@ -39,6 +39,9 @@ class Document(models.Model):
     num_chars = models.IntegerField(default=0)
     contents = models.TextField(blank=True)
     title = models.TextField(blank=False, default="My new document")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
 
     def save(self, *args, **kwargs):
         self.num_chars = len(self.contents)
@@ -46,3 +49,36 @@ class Document(models.Model):
 
     def __str__(self):
         return self.title
+
+class Highlight(models.Model):
+    document = models.ForeignKey(Document, on_delete=models.CASCADE, related_name='highlights')
+    start_char = models.PositiveIntegerField(blank=False)
+    end_char = models.PositiveIntegerField(blank=False)
+    
+    def __str__(self):
+        return "{doc} {start}:{end}".format(doc=str(self.document), start=self.start_char, end=self.end_char)
+
+    def clean(self):
+        if self.end_char >= self.document.num_chars:
+            raise ValidationError({'end_char': 'Highlight cannot go past the end of the document'})
+    
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
+
+class Annotation(models.Model):
+    document = models.ForeignKey(Document, on_delete=models.CASCADE, related_name='annotations')
+    start_char = models.PositiveIntegerField(blank=False)
+    end_char = models.PositiveIntegerField(blank=False)
+    contents = models.TextField(default="")
+    
+    def __str__(self):
+        return "{doc} {start}:{end}".format(doc=str(self.document), start=self.start_char, end=self.end_char)
+
+    def clean(self):
+        if self.end_char >= self.document.num_chars:
+            raise ValidationError({'end_char': 'Highlight cannot go past the end of the document'})
+    
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
