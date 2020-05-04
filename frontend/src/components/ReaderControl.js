@@ -3,6 +3,7 @@ import { FaHighlighter } from 'react-icons/fa'
 import { IoMdOptions, IoMdClose } from 'react-icons/io'
 import Select from 'react-select';
 import { CompactPicker } from 'react-color';
+
 import Typography from '@material-ui/core/Typography'
 import Slider from '@material-ui/core/Slider'
 import FormControl from '@material-ui/core/FormControl'
@@ -19,14 +20,10 @@ const selectStyle = {
     })
 }
 
-const colorStyle = {
-    boxShadow: "none"
-}
-
 const styles = theme => ({
     formControl: {
-        margin: theme.spacing(1),
-        width: '90%',
+        margin: 0,
+        width: '100%',
       },
       selectEmpty: {
         marginTop: theme.spacing(2)
@@ -60,6 +57,7 @@ const fontSize = [
 
 
 class ReaderControl extends Component {
+
     constructor(props) {
         super(props);
         console.log(props.file.char_width)
@@ -76,6 +74,7 @@ class ReaderControl extends Component {
     handleDisplayPanel = () => {
         this.setState({displayPanel: !this.state.displayPanel});
     }
+
 
     render(){
         const { classes } = this.props;
@@ -106,7 +105,7 @@ class ReaderControl extends Component {
                                     </Typography>
                                     <Slider
                                         defaultValue={this.props.file.font_size}
-                                        onChangeCommitted={(event, value) => this.props.handleChange("font_size", event, value)}
+                                        onChangeCommitted={(event, value) => this.props.handleSliderChange("font_size", event, value)}
                                         aria-labelledby="discrete-slider"
                                         valueLabelDisplay="auto"
                                         step={2}
@@ -117,7 +116,7 @@ class ReaderControl extends Component {
                                     />
                                 </FormControl>
                                 <div className="reader-colors-wrap">
-                                    <CompactPicker color={`#${this.props.file.color}`} colors={swatch} onChange={this.props.handleColorChange} zDepth={0}/> 
+                                    <CompactPicker color={`#${this.props.file.color}`} colors={swatch} onChange={this.props.handleColorChange} /> 
                                 </div>
                                 <FormControl className={classes.formControl}>
                                     <Typography id="discrete-slider">
@@ -125,7 +124,7 @@ class ReaderControl extends Component {
                                     </Typography>
                                     <Slider
                                         defaultValue={this.props.file.line_height}
-                                        onChangeCommitted={(event, value) => this.props.handleChange("line_height", event, value)}
+                                        onChangeCommitted={(event, value) => this.props.handleSliderChange("line_height", event, value)}
                                         aria-labelledby="discrete-slider"
                                         valueLabelDisplay="auto"
                                         step={.25}

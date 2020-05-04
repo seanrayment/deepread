@@ -263,6 +263,7 @@
 .file-metadata{
   display:flex;
   flex-direction: column;
+  font-weight:200;
   justify-content: center;
 }
 
@@ -273,7 +274,10 @@
 
 .file-metadata-descriptor {
   font-size: 14px;
-  color: #1e1e1e;
+  color: #757575;
+}
+
+.file-metadata-descriptor span {
 }
 
 .files-content table td {
@@ -364,9 +368,12 @@ span.highlight {
   position: sticky;
   align-self: flex-start;
   top:0;
+  box-sizing: border-box;
 }
 .reader-control-wrap{
   padding: 1rem;
+  box-sizing: border-box;
+  width:100%;
 }
 .reader-highlight-box{
   width:64px;
@@ -403,10 +410,11 @@ span.highlight {
   font-family:'Helvetica'
 }
 .reader-prefs{ 
-  width: 100%;
   margin:1rem 0;
   padding:1rem 1rem;
   border:1px solid #e0e0e0;
+  box-sizing: border-box;
+  position:absolute;
 }
 .reader-options-icon{
   float:right;
@@ -418,8 +426,10 @@ span.highlight {
   opacity:.7;
 }
 
+.reader-colors-wrap{
+  margin:1rem 0;
+}
 .reader-colors-wrap *{
-  z-index:0 !important;
   box-shadow: none !important;
 }
 

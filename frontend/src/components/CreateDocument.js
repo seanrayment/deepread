@@ -25,6 +25,7 @@ class CreateDocument extends Component {
             contents: this.state.contents,
             font_family: 'Arial',
             color: '000000',
+            line_height:1.5,
         }).then (result => {
             this.props.history.push(`/document/${result.data.pk}`);
         })

@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import axiosInstance from "../axiosApi"
 import { IoMdArrowBack } from 'react-icons/io'
+
 import { withStyles } from '@material-ui/core/styles'
 import ReaderControl from './ReaderControl';
+import { FaRegArrowAltCircleRight } from 'react-icons/fa';
 
 // styling to be applied dynamically via material-ui
 const styles = theme => ({
@@ -26,7 +28,6 @@ class Reader extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            displayColorPicker: false,
             file: null,
             prefs: {
                 font_family: '',
@@ -41,28 +42,31 @@ class Reader extends Component {
     }
     
     render () {
-        const { classes } = this.props;
-
         if (this.state.file) {
             const bodyStyle = {
                 color: `#${this.state.file.color}`,
                 fontFamily: this.state.file.font_family,
                 fontSize: `${this.state.file.font_size}pt`,
-                lineHeight: `${this.state.file.line_height}`,
-                width: `${this.state.file.char_width}ch`
+                lineHeight: this.state.file.line_height,
               };
             return (
                     <div className="reader-body">
                         <div className="reader-controls">
                             <IoMdArrowBack style={{width:'36px', height:'36px'}} onClick={() => this.props.history.push("/")} />
-                            <ReaderControl file={this.state.file} handleChange = {this.handleChange} handleSelectChange = {this.handleSelectChange} handleColorChange = {this.handleColorChange} ></ReaderControl>
+                            <ReaderControl 
+                                file={this.state.file}
+                                handleChange = {this.handleChange}
+                                handleSelectChange = {this.handleSelectChange}
+                                handleColorChange = {this.handleColorChange}
+                                handleSliderChange = {this.handleSliderChange}
+                                >    
+                            </ReaderControl>
                         </div>
                         <div className="reader-main">
                             <h1>{this.state.file.title}</h1>
                             <p 
                                 style={bodyStyle} 
                                 dangerouslySetInnerHTML={ {__html: this.buildText() } }>
-                                
                             </p>
                         </div>
                         <div className="reader-annotations">
@@ -82,49 +86,44 @@ class Reader extends Component {
         return splitContents.join('');
     }
 
-    handleColorChange = async(event) => {
-        await this.updateColorPref(event);
-        await this.updateFile();
-    }
-
-    updateColorPref = async(event) => {
+    handleColorChange = (event) => {
         this.setState( {
             prefs: {
                 color: event.hex.substring(1),
             }
-        });
+        }, () => this.updateFile());
     }
  
     handleClick = () => {
         this.setState({ displayColorPicker: !this.state.displayColorPicker });
-    }
+    }    
     
     handleClose = () => {
         this.setState({ displayColorPicker: false });
     }
 
-    handleChange = async(name, event, value) => {
-        await this.setState({
+    handleSliderChange = (name, event, value) => {
+        this.setState({
             prefs: {
-                [name]: value
+                [name]: value,
             }
-        });
-        await this.updateFile();
+        }, () => this.updateFile())
     }
 
-    handleSelectChange = async(event, meta) => {
-        await this.updateSelectPref(event, meta);
-        await this.updateFile(event);
-    }
+    // handleSelectChange = async(event, meta) => {
+    //     await this.updateSelectPref(event, meta);
+    //     this.updateFile(event);
+    // }
 
-    updateSelectPref = (event, meta) => {
+
+    handleSelectChange = (event, meta) => {
         console.log(meta.name);
         console.log(event.value);
         this.setState ( {
             prefs: {
                 [meta.name]: event.value,
             }
-        });
+        }, () => this.updateFile())
     }
 
     updateFile = async() => {
@@ -158,4 +157,4 @@ class Reader extends Component {
     }
 
 }
-export default withStyles(styles)(Reader);
+export default Reader;

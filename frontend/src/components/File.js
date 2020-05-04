@@ -17,8 +17,8 @@ class File extends Component{
                 </td>
                 <td>
                     <div className="file-metadata">
-                        <p><span className="file-metadata-descriptor">last modified:</span> {moment(this.props.file.updated_at).fromNow() }</p>
-                        <p><span className="file-metadata-descriptor">created on:</span> {moment(this.props.file.created_at).format('MMMM D YYYY')}</p>
+                        <p className="file-metadata-descriptor">last modified <span>{moment(this.props.file.updated_at).fromNow() }</span></p>
+                        <p className="file-metadata-descriptor">created on <span>{moment(this.props.file.created_at).format('MMMM D YYYY')}</span></p>
                     </div>
                 </td>
             </tr>
