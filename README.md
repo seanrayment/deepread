@@ -40,9 +40,9 @@ If you add new python modules while working on the project, register them as dep
 `POST /api/user/create/`
 | param         | description   | 
 | ------------- |---------------| 
-| username      | <String> must be unique | 
-| email      | <String> must be unique and valid email format      |  
-| password | <String> at least 8 characters      |  
+| `username`      | <String> must be unique | 
+| `email`      | <String> must be unique and valid email format      |  
+| `password` | <String> at least 8 characters      |  
 
 
 ### Obtaining a JWT token pair (User login) 
@@ -50,26 +50,26 @@ If you add new python modules while working on the project, register them as dep
 
 | param         | description   | 
 | ------------- |---------------| 
-| username      | <String> must match an existing user | 
-| password | <String>      |  
+| `username`      | <String> must match an existing user | 
+| `password` | <String>      |  
 
 ### Refreshing an access token (extending 5-minute user session)
 `POST /api/token/refresh/`
 | param         | description   | 
 | ------------- |---------------| 
-| refresh      | <String> valid JWT refresh token from last 2 weeks | 
+| `refresh`      | <String> valid JWT refresh token from last 2 weeks | 
   
 ### Blacklisting JWT token (User logout)
 `POST /api/blacklist/`
 | param         | description   | 
 | ------------- |---------------| 
-| refresh_token      | <String> JWT refresh token | 
+| `refresh_token`      | <String> JWT refresh token | 
 
 ### Get User Info
 `GET /api/user/`
 | header         | description   | 
 | ------------- |---------------| 
-| Authorization      | `JWT <JWT access token>` | 
+| `Authorization`      | `JWT <JWT access token>` | 
 
 example response
 ```
@@ -83,37 +83,39 @@ example response
 `POST /api/documents/<int:pk>/`
 | header         | description   | 
 | ------------- |---------------| 
-| Authorization      | `JWT <JWT access token>` |
+| `Authorization`      | `JWT <JWT access token>` |
 
 | param         | description   | 
 | ------------- |---------------| 
-| title (optional)      | <String> document's title, default is "My new document" | 
-| contents (optional)      | <String> defaults to empty string |
-  | font_family (optional)      | <String> One of: 'georgia', 'serif', 'times_new_roman', 'arial', 'helvetica', 'sans_serif', 'tahoma' |
-  | color (optional)      | <String> must be valid 6 digit hex string e.g. `"0a0a0a"` |
-| font_size (optional)      | <Integer> font size to be used in px |
-  | char_width (optional)      | <Ingeger> char width to be used in ch | 
+| `title` (optional)      | <String> document's title, default is "My new document" | 
+| `contents` (optional)      | <String> defaults to empty string |
+  | `font_family` (optional)      | <String> One of: 'Georgia', 'Serif', 'Time New Roman', 'Arial', 'Helvetica', 'sans_serif', 'Tahoma' |
+  | `color` (optional)      | <String> must be valid 6 digit hex string e.g. `"0a0a0a"` |
+| `font_size` (optional)      | <Integer> font size to be used in px |
+  | `char_width` (optional)      | <Integer> char width to be used in ch | 
+    | `line_height` (optional)      | <Float> between .5 and 5.0, inclusive |
 
 ### Updating a document
 `PUT /api/documents/<int:pk>/`
 | header         | description   | 
 | ------------- |---------------| 
-| Authorization      | `JWT <JWT access token>` |
+| `Authorization`      | `JWT <JWT access token>` |
 
 | param         | description   | 
 | ------------- |---------------| 
-| title (optional)      | <String> document's title, default is "My new document" | 
-| contents (optional)      | <String> defaults to empty string |
-  | font_family (optional)      | <String> One of: 'georgia', 'serif', 'times_new_roman', 'arial', 'helvetica', 'sans_serif', 'tahoma' |
-  | color (optional)      | <String> must be valid 6 digit hex string e.g. `"0a0a0a"` |
-| font_size (optional)      | <Integer> font size to be used in px |
-  | char_width (optional)      | <Ingeger> char width to be used in ch | 
+| `title` (optional)      | <String> document's title, default is "My new document" | 
+| `contents` (optional)      | <String> defaults to empty string |
+  | `font_family` (optional)      | <String> One of: 'georgia', 'serif', 'times_new_roman', 'arial', 'helvetica', 'sans_serif', 'tahoma' |
+  | `color` (optional)      | <String> must be valid 6 digit hex string e.g. `"0a0a0a"` |
+| `font_size` (optional)      | <Integer> font size to be used in px |
+  | `char_width` (optional)      | <Integer> char width to be used in ch | 
+      | `line_height` (optional)      | <Float> between .5 and 5.0, inclusive |
   
 ### Getting a document
 `GET /api/documents/<int:pk>/`
 | header         | description   | 
 | ------------- |---------------| 
-| Authorization      | `JWT <JWT access token>` |
+| `Authorization`      | `JWT <JWT access token>` |
 
 example response
 ```
@@ -134,13 +136,13 @@ example response
 `DELETE /api/document/<int:pk>/`  
   | header         | description   | 
 | ------------- |---------------| 
-| Authorization      | `JWT <JWT access token>` |
+| `Authorization`      | `JWT <JWT access token>` |
 
 ### Listing documents
 `GET /api/documents/`
 | header         | description   | 
 | ------------- |---------------| 
-| Authorization      | `JWT <JWT access token>` |
+| `Authorization`      | `JWT <JWT access token>` |
 
 example response
 ```
@@ -169,3 +171,96 @@ example response
     }
 ]
 ```
+
+## Creating a highlight
+`POST /api/highlights/<int:pk>`
+Note: pk is the primary key of the associated document
+| header         | description   | 
+| ------------- |---------------| 
+| `Authorization`      | `JWT <JWT access token>` |
+
+| param         | description   | 
+| ------------- |---------------| 
+| `start_char`      | <Integer> index of start character in associated document | 
+| `end_char` | <Integer> index of end character in associated document     |
+
+## Getting highlights
+`GET /api/highlights/<int:pk>`
+Note: pk is the primary key of the associated document
+| header         | description   | 
+| ------------- |---------------| 
+| `Authorization`      | `JWT <JWT access token>` |
+
+## Getting a highlight
+`GET /api/highlight/<int:pk>`
+Note: pk is the primary key of the specific highlight
+| header         | description   | 
+| ------------- |---------------| 
+| `Authorization`      | `JWT <JWT access token>` |
+
+## Deleting a highlight
+`DELETE /api/highlight/<int:pk>`
+Note: pk is the primary key of the specific highlight
+| header         | description   | 
+| ------------- |---------------| 
+| `Authorization`      | `JWT <JWT access token>` |
+
+## Updating a highlight
+`PUT /api/highlight/<int:pk>`
+Note: pk is the primary key of the highlight
+| header         | description   | 
+| ------------- |---------------| 
+| `Authorization`      | `JWT <JWT access token>` |
+
+| param         | description   | 
+| ------------- |---------------| 
+| `start_char` (optional)     | <Integer> index of start character in associated document | 
+| `end_char` (optional) | <Integer> index of end character in associated document     |
+
+
+## Creating an annotation
+`POST /api/annotations/<int:pk>`
+Note: pk is the primary key of the associated document
+| header         | description   | 
+| ------------- |---------------| 
+| `Authorization`      | `JWT <JWT access token>` |
+
+| param         | description   | 
+| ------------- |---------------| 
+| `start_char`      | <Integer> index of start character in associated document | 
+| `end_char` | <Integer> index of end character in associated document     |
+| `contents` | <String> the text contents of the annotation     |
+
+## Getting annotations
+`GET /api/annotations/<int:pk>`
+Note: pk is the primary key of the associated document
+| header         | description   | 
+| ------------- |---------------| 
+| `Authorization`      | `JWT <JWT access token>` |
+
+## Getting an annotation
+`GET /api/annotation/<int:pk>`
+Note: pk is the primary key of the specific annotation
+| header         | description   | 
+| ------------- |---------------| 
+| `Authorization`      | `JWT <JWT access token>` |
+
+## Deleting an annotation
+`DELETE /api/annotation/<int:pk>`
+Note: pk is the primary key of the specific annotation
+| header         | description   | 
+| ------------- |---------------| 
+| `Authorization`      | `JWT <JWT access token>` |
+
+## Updating an annotation
+`PUT /api/annotation/<int:pk>`
+Note: pk is the primary key of the annotation
+| header         | description   | 
+| ------------- |---------------| 
+| `Authorization`      | `JWT <JWT access token>` |
+
+| param         | description   | 
+| ------------- |---------------| 
+| `start_char` (optional)     | <Integer> index of start character in associated document | 
+| `end_char` (optional) | <Integer> index of end character in associated document     |
+  | `contents` (optional) | <String> the text contents of the annotation     |
