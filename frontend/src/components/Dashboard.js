@@ -67,14 +67,17 @@ class Dashboard extends Component {
                             />
                         </div>
                     </div>
+                    {this.state.fileList.length > 0 ? (
                     <table>
                         <tbody>
                             {this.renderFiles()}
                         </tbody>
                     </table>
+                    ) : (
                     <div className="files-no-files">
-
+                        <p>No files to display. Create a file to get started.</p>
                     </div>
+                    )}
                 </div>
             </div>
         );
@@ -87,8 +90,14 @@ class Dashboard extends Component {
         });
     }
 
+    deleteDoc = (pk) => {
+        axiosInstance.delete(`/documents/${pk}`).then( () => {
+            this.getDocs();
+        });
+    }
+
     getDocs = () => {
-        let response = axiosInstance.get('/documents/')
+        axiosInstance.get('/documents/')
             .then(
                 fileList => {
                     this.setState({ fileList: fileList.data });
@@ -108,12 +117,14 @@ class Dashboard extends Component {
             case "updated_at":
                 fileList = fileList.sort((f1, f2) => moment(f2.updated_at) - moment(f1.updated_at));
                 break;
+            default:
+                break;
         }        
 
         return fileList.filter(file => file.title.toLowerCase().includes(this.state.searchChars)).map(
             (file) => {
                 console.log(file.created_at)
-                return (<File selectFile={this.goToReader} file={file}></File>)
+                return (<File key={file.pk} selectFile={this.goToReader} file={file} delete={this.deleteDoc}/>)
             }
         );
     }

@@ -186,7 +186,7 @@ class Reader extends Component {
         axiosInstance.put(`/highlight/${pk}/`,{
             start_char:start,
             end_char:end,
-        }).then(res=>console.log(res));
+        });
     }
 
     deleteHighlight = (pk) => {

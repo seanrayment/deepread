@@ -208,6 +208,7 @@
   color:#723EE0;
   text-decoration: none;
 }
+
 .user-dropdown-wrapper:hover .menu {
   display:block;
 }
@@ -277,7 +278,13 @@
   color: #757575;
 }
 
-.file-metadata-descriptor span {
+.file-title{
+  font-weight:500;
+  width: max-content;
+}
+.file-title:hover{
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .files-content table td {
@@ -292,13 +299,18 @@
 }
 .files-content table tr:hover{
   border-left:2px solid #723EE0;
-  cursor: pointer;
 }
 
 .files-no-files{
   width:100%;
   height:25em;
-
+}
+.files-no-files p{
+  font-size:1.5em;
+  color:grey;
+  font-weight:300;
+  font-style:italic;
+  padding-top:1rem;
 }
 
 .files-content textarea{
@@ -339,6 +351,38 @@
   font-weight:400;
   margin-top:4rem;
 }
+
+.file-dot-menu-wrap {
+  box-sizing:border-box;
+  width:2rem;
+}
+.file-dots:hover div{
+  display:block;
+}
+
+
+.file-menu{
+  display:none;
+  position:absolute;
+  background-color: #FFFFFF;
+  right:12vw;
+  min-width:100px;
+  box-shadow: 0 4px 4px 0 rgba(0,0,0,0.2);
+  z-index: 0;
+  padding:.5rem;
+  border-radius:0 0 5px 5px;
+}
+.file-menu:hover{
+  background-color: #EEEEEE;
+  cursor:pointer;
+}
+.file-menu p{
+  color:black;
+  font-weight:300;
+  padding:0;
+  margin:0;
+}
+
 
 .create-form div {
   margin-top:1rem;
