@@ -68,7 +68,10 @@ class ReaderControl extends Component {
     }
 
     handleHighlighter = () => {
-        this.setState({useHighlighter: !this.state.useHighlighter,})
+        this.props.handleHighlighter();
+        this.setState({
+            useHighlighter: !this.state.useHighlighter,
+        })
     }
 
     handleDisplayPanel = () => {
@@ -109,7 +112,6 @@ class ReaderControl extends Component {
                                         aria-labelledby="discrete-slider"
                                         valueLabelDisplay="auto"
                                         step={2}
-                                        marks
                                         min={8}
                                         max={48}
                                         name="font_size"
@@ -128,8 +130,7 @@ class ReaderControl extends Component {
                                         aria-labelledby="discrete-slider"
                                         valueLabelDisplay="auto"
                                         step={.25}
-                                        marks
-                                        min={.5}
+                                        min={1.0}
                                         max={4.0}
                                         name="line_height"
                                     />

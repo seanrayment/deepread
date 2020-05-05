@@ -1,28 +1,8 @@
 import React, { Component } from 'react'
 import axiosInstance from "../axiosApi"
 import { IoMdArrowBack } from 'react-icons/io'
-
-import { withStyles } from '@material-ui/core/styles'
 import ReaderControl from './ReaderControl';
-import { FaRegArrowAltCircleRight } from 'react-icons/fa';
-
-// styling to be applied dynamically via material-ui
-const styles = theme => ({
-    formControl: {
-        margin: theme.spacing(1),
-        width: 100
-      },
-      selectEmpty: {
-        marginTop: theme.spacing(2)
-      },
-      slider: {
-        width: 120,
-        fontSize: 16,
-      },
-      textField: {
-          width: '10ch',
-      }
-});
+import { TextAnnotator } from 'react-text-annotate'
 
 class Reader extends Component {
     constructor(props) {
@@ -38,6 +18,7 @@ class Reader extends Component {
                 highlights: [],
                 annotations: [],
             },
+            highlightToggle: true,
         }
     }
     
@@ -59,15 +40,13 @@ class Reader extends Component {
                                 handleSelectChange = {this.handleSelectChange}
                                 handleColorChange = {this.handleColorChange}
                                 handleSliderChange = {this.handleSliderChange}
+                                handleHighlighter = {this.handleHighlighter}
                                 >    
                             </ReaderControl>
                         </div>
                         <div className="reader-main">
                             <h1>{this.state.file.title}</h1>
-                            <p 
-                                style={bodyStyle} 
-                                dangerouslySetInnerHTML={ {__html: this.buildText() } }>
-                            </p>
+                            {this.renderText()}
                         </div>
                         <div className="reader-annotations">
                         </div>
@@ -93,7 +72,9 @@ class Reader extends Component {
             }
         }, () => this.updateFile());
     }
- 
+    handleHighlighter = () => {
+        this.setState({highlightToggle:!this.state.highlightToggle,})
+    }
     handleClick = () => {
         this.setState({ displayColorPicker: !this.state.displayColorPicker });
     }    
@@ -109,11 +90,6 @@ class Reader extends Component {
             }
         }, () => this.updateFile())
     }
-
-    // handleSelectChange = async(event, meta) => {
-    //     await this.updateSelectPref(event, meta);
-    //     this.updateFile(event);
-    // }
 
 
     handleSelectChange = (event, meta) => {
@@ -137,20 +113,118 @@ class Reader extends Component {
             })
             this.setState({
                 file: resp.data,
-            })
+            }, () => this.buildHighlights())
         } catch (err) {
             console.log(err);
         }
     }
 
-    componentDidMount = () => {
-        this.renderFile();
+    renderText = () => {
+        if (this.state.highlightToggle) {
+            return ( 
+                <TextAnnotator
+                    style={{
+                        color: `#${this.state.file.color}`,
+                        fontFamily: this.state.file.font_family,
+                        fontSize: `${this.state.file.font_size}pt`,
+                        lineHeight: this.state.file.line_height,
+                    }}
+                    content={this.state.file.contents}
+                    value={this.state.prefs.highlights}
+                    onChange={this.addHighlight}
+                    onClick = {e=>console.log(e)}
+                    getSpan={span => ({
+                    ...span,
+                    color: "#fff2ac",
+                    })}
+                />
+            )
+        }
+        else {
+            return (
+                <p style={{
+                    color: `#${this.state.file.color}`,
+                    fontFamily: this.state.file.font_family,
+                    fontSize: `${this.state.file.font_size}pt`,
+                    lineHeight: this.state.file.line_height,}}
+                >
+                    {this.state.file.contents}
+                </p>)
+        }
+
     }
 
-    renderFile = () => {
+    addHighlight = async(value) => {
+        console.log(value);
+        let highlights = this.state.prefs.highlights;
+        let currValue = value[value.length-1];
+        if (currValue && !isNaN(currValue.start) && !isNaN(currValue.end)){ //Account for the edge cases
+            for (let i=0; i < highlights.length; i++){
+                let h = highlights[i];
+                if (currValue.start < h.start && currValue.end > h.end){ //If new highlight wraps another
+                    await this.deleteHighlight(h.pk); //delete old highlight from db
+                    value.splice(i, 1); //delete from highlight values
+                }
+                else if (currValue.start < h.end && currValue.start >= h.start && currValue.end <= h.end && currValue.end > h.start){//if another highlight wraps new highlight
+                    return;
+                }
+                else if (currValue.start < h.start && currValue.end <= h.end && currValue.end > h.start) { //new highlight begins before another but terminates inside
+                    //await this.updateHighlight(h.pk, currValue.start, h.end); //update old highlight to begin at new start
+                    await this.deleteHighlight(h.pk);
+                    currValue.end = h.end;
+                }
+                else if (currValue.start >= h.start && currValue.start <= h.end && currValue.end > h.start) { //new highlight starts inside another but terminates after
+                    await this.deleteHighlight(h.pk); //update old highlight to end at new end
+                    currValue.start = h.start;
+                }
+            }
+            this.postHighlight(value);
+        }
+    }
+
+    updateHighlight = (pk, start, end) => {
+        axiosInstance.put(`/highlight/${pk}/`,{
+            start_char:start,
+            end_char:end,
+        }).then(res=>console.log(res));
+    }
+
+    deleteHighlight = (pk) => {
+        axiosInstance.delete(`/highlight/${pk}/`);
+    }
+
+    buildHighlights = () => {
+        let values = this.state.file.highlights.map(h => {
+            return ({
+                pk: h.pk,
+                start: h.start_char, 
+                end: h.end_char,
+                color:"#fff2ac",
+            })
+        });
+        this.setState({prefs: {
+            highlights: values,
+        }});
+    }
+
+    postHighlight = (v) => {
+        let newHighlight = v[v.length-1];
+        if (newHighlight) {
+            axiosInstance.post(`/highlights/${this.props.match.params.pk}/`, {
+                start_char: v[v.length-1].start,
+                end_char: v[v.length-1].end,
+            }).then(()=>this.loadFile()); //reload
+        }
+    }
+
+    componentDidMount = () => {
+        this.loadFile();
+    }
+
+    loadFile = () => {
         axiosInstance.get(`/documents/${this.props.match.params.pk}/`)
         .then ( (response) => {
-            this.setState({file: response.data});
+            this.setState({file: response.data}, ()=> this.buildHighlights());
         }).catch( err => {
             console.log(err);
         })

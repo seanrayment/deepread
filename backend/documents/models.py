@@ -59,7 +59,7 @@ class Highlight(models.Model):
         return "{doc} {start}:{end}".format(doc=str(self.document), start=self.start_char, end=self.end_char)
 
     def clean(self):
-        if self.end_char >= self.document.num_chars:
+        if self.end_char > self.document.num_chars:
             raise ValidationError({'end_char': 'Highlight cannot go past the end of the document'})
     
     def save(self, *args, **kwargs):

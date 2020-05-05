@@ -56,14 +56,15 @@ class Dashboard extends Component {
                     <div className="files-header">
                     <h2>Documents</h2>
                         <div className="files-control">
-                            <input type="search" placeholder="Search for documents" onChange={this.updateSearch}></input>
+                            <input aria-label="Search" type="search" placeholder="Search for documents" onChange={this.updateSearch}></input>
                             <Select 
-                                    options={sortOptions}
-                                    name="sortField"
-                                    styles={selectStyle}
-                                    onChange={this.handleSelectChange} 
-                                    placeholder="Sort by"
-                                />
+                                options={sortOptions}
+                                name="sortField"
+                                styles={selectStyle}
+                                onChange={this.handleSelectChange} 
+                                placeholder="Sort by"
+                                aria-label="sort documents"
+                            />
                         </div>
                     </div>
                     <table>
