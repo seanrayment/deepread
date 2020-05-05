@@ -141,7 +141,7 @@ class ReaderControl extends Component {
                                     </Typography>
                                     <Slider
                                         defaultValue={this.props.file && this.props.file.char_width ? this.props.file.char_width : 80 }
-                                        onChangeCommitted={(event, value) => this.props.handleChange("char_width", event, value)}
+                                        onChangeCommitted={(event, value) => this.props.handleSliderChange("char_width", event, value)}
                                         aria-labelledby="discrete-slider"
                                         valueLabelDisplay="auto"
                                         step={1}
