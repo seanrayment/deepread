@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.core.exceptions import ValidationError
 from rest_framework import status, permissions
 from rest_framework.views import APIView
-from .models import Document, Highlight
+from .models import Document, Highlight, Annotation
 from authentication.models import CustomUser
 from rest_framework.response import Response
 from django.http import Http404
