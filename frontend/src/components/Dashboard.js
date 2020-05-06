@@ -75,7 +75,7 @@ class Dashboard extends Component {
                     </table>
                     ) : (
                     <div className="files-no-files">
-                        <p>No files to display. Create a file to get started.</p>
+                        <p>No files to display. Create a file to get started</p>
                     </div>
                     )}
                 </div>
