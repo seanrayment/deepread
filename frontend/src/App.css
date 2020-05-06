@@ -519,8 +519,26 @@ span.highlight {
   font-weight:300;
 }
 
-.reader-user-dropdown-wrap:hover 
-.reader-user-dropdown-wrap .user-dropdown{
+
+
+.reader-dropdown-menu {
+  display:none;
+  position:absolute;
+  background-color: #FAFAFA;
+  right:4rem;
+  min-width:128px;
+  box-shadow: 0 4px 4px 0 rgba(0,0,0,0.2);
+  z-index: 0;
+  padding:1rem;
+  border-radius:0 0 5px 5px;
+}
+.reader-dropdown-menu a {
+  padding:1rem 0;
+  color:#723EE0;
+  text-decoration: none;
+}
+
+.reader-user-dropdown-wrap:hover .reader-dropdown-menu{
   display:block;
 }
 .reader-annotations p{

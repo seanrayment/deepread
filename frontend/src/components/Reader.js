@@ -58,7 +58,7 @@ class Reader extends Component {
                                 <h2>{this.state.user ? this.state.user.data.email : null}</h2>
                                 <BsChevronDown color={"white"} style={{width:'16px', height:'16px', paddingLeft:'.5rem'}}/>
                             </div> 
-                            <div className="menu">
+                            <div className="reader-dropdown-menu">
                                 <Link to="/login" onClick={this.signOut}>Sign out</Link>
                             </div>
                         </div>
@@ -349,5 +349,11 @@ class Reader extends Component {
             showAnnotations: !this.state.showAnnotations,
         })
     }
+    signOut = () => {
+        this.props.signOut().then( () => {
+            this.props.history.push("/login");
+        });
+    }
+
 }
 export default Reader;

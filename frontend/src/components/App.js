@@ -84,7 +84,7 @@ class App extends Component {
                             (this.state.isAuthed ? <Dashboard {...props} user = {this.state.user} signOut = {this.handleLogout} /> : <Redirect to="/login" /> )}
                         />
                         <Route exact path={"/document/:pk"} render = { (props) => 
-                            <Reader {...props} /> } 
+                            <Reader {...props} signOut = {this.handleLogout}/> } 
                         />
                         <Route exact path={"/create/"} render= { (props) => 
                             <CreateDocument {...props} user = {this.state.user} />
