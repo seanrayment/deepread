@@ -202,6 +202,7 @@ class Reader extends Component {
                         fontFamily: this.state.file.font_family,
                         fontSize: `${this.state.file.font_size}pt`,
                         lineHeight: this.state.file.line_height,
+                        width: `100%`,
                     }}
                     content={this.state.file.contents}
                     value={this.state.prefs.highlights}
