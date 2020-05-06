@@ -124,7 +124,7 @@ class Dashboard extends Component {
         return fileList.filter(file => file.title.toLowerCase().includes(this.state.searchChars)).map(
             (file) => {
                 console.log(file.created_at)
-                return (<File key={file.pk} selectFile={this.goToReader} file={file} delete={this.deleteDoc}/>)
+                return (<File key={file.pk} selectFile={this.goToReader} file={file} email={this.props.user.email} delete={this.deleteDoc}/>)
             }
         );
     }

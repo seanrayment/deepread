@@ -118,7 +118,7 @@
 /* Dashboard */ 
 .files-body{
   width:100vw;
-  padding:2rem 10vw;
+  padding:3rem 10vw;
   box-sizing: border-box;
 }
 
@@ -391,15 +391,19 @@
 .reader-controls, .reader-annotations {
   padding:2rem;
 }
-
+.reader-annotations {
+  padding-right:4rem;
+}
 .reader-body{
   display:flex;
   width:100vw;
-  padding:4rem 0;
+  padding:3rem 0;
   padding-bottom:0;
-  height:100vh;
+  min-height:100vh;
   box-sizing: border-box;
+  transition:background-color .2s ease-in-out;
 }
+
 
 span.highlight {
   background-color: #fff2ac;
@@ -426,8 +430,7 @@ span.highlight {
   display:flex;
   justify-content: center;
   align-items: center;
-  margin-left:auto;
-  margin-right:0;
+
 }
 
 .reader-controls, .reader-annotations{
@@ -435,6 +438,8 @@ span.highlight {
 }
 .reader-panel-close-box{
   width:100%;
+  display:flex;
+  justify-content: space-between;
   text-align: right;
   margin-bottom:1rem;
 }
@@ -459,15 +464,22 @@ span.highlight {
   border:1px solid #e0e0e0;
   box-sizing: border-box;
   position:absolute;
+  width:74%;
 }
+
 .reader-options-icon{
   float:right;
-  width:36px;
-  height:36px;
+  width:32px;
+  height:32px;
   margin-top:1rem;
 }
 .reader-options-icon:hover{
   opacity:.7;
+  cursor:pointer;
+}
+.reader-toggles{
+  display:flex;
+  justify-content: flex-end;
 }
 
 .reader-colors-wrap{
@@ -482,3 +494,75 @@ span.highlight {
   margin-bottom:.75rem;
 }
 
+.reader-banner{
+  width:100vw;
+  box-sizing: border-box;
+  height:3em;
+  background-color: #723EE0;
+  margin:0;
+  display: flex;
+  align-items: center;
+  padding:0 4rem;
+  justify-content: space-between;
+}
+.reader-banner h1{
+  font-size:1.5em;
+  color:white;
+  margin:0;
+  padding:0;
+  font-weight:600;
+}
+
+.reader-banner h2{
+  font-size:1em;
+  color:white;
+  font-weight:300;
+}
+
+.reader-user-dropdown-wrap:hover 
+.reader-user-dropdown-wrap .user-dropdown{
+  display:block;
+}
+.reader-annotations p{
+  margin:0;
+  font-size:.75em;
+  font-weight:600;
+  margin-bottom:.25rem;
+}
+.annotation-wrap{
+  border:1px solid #e0e0e0;
+  padding:1rem;
+  box-sizing: border-box;
+  width:100%;
+  margin:.5rem 0;
+  position:relative;
+}
+
+.annotation-wrap p{
+  font-size: 0.75em;
+  margin:0;
+  line-height:1.5;
+  font-weight:400;
+}
+
+.annotation-submit{
+  width:100%;
+  border:1px solid #b89eef;
+  color:#723EE0;
+  padding:.5rem 0;
+  margin-top:.5rem;
+  font-size:.75em;  
+}
+
+.annotation-submit:hover{
+  background-color: #f7f5fd;
+}
+
+.annotation-close {
+  position:absolute;
+  right:1rem;
+}
+
+.compact-picker{
+  width:100% !important;
+}

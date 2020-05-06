@@ -1,14 +1,36 @@
 import React, { Component } from 'react'
 import axiosInstance from "../axiosApi"
-import { IoMdArrowBack } from 'react-icons/io'
+import { BsChevronDown } from 'react-icons/bs'
 import ReaderControl from './ReaderControl';
 import { TextAnnotator } from 'react-text-annotate'
+import { Link } from "react-router-dom";
+import Annotation from './Annotation'
+import { TextField } from '@material-ui/core';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+
+
+const theme = createMuiTheme({
+    palette: {
+      primary: {
+        main: '#723EE0'
+      }
+    },
+    overrides: {
+        MuiOutlinedInput: {
+            root: {
+                borderColor: "#E0e0e0"
+            }
+        }
+    }
+});
+  
 
 class Reader extends Component {
     constructor(props) {
         super(props);
         this.state = {
             file: null,
+            user: null,
             prefs: {
                 font_family: '',
                 color: '',
@@ -18,22 +40,31 @@ class Reader extends Component {
                 highlights: [],
                 annotations: [],
             },
-            highlightToggle: true,
+            showHighlights: true,
+            nightMode: false,
+            showAnnotations: true,
+            currentAnnotation: "",
         }
     }
     
     render () {
         if (this.state.file) {
-            const bodyStyle = {
-                color: `#${this.state.file.color}`,
-                fontFamily: this.state.file.font_family,
-                fontSize: `${this.state.file.font_size}pt`,
-                lineHeight: this.state.file.line_height,
-              };
             return (
-                    <div className="reader-body">
+                <div>
+                    <div className="reader-banner">
+                        <h1 onClick={() => this.props.history.push("/")}>deepread.app</h1>
+                        <div className="reader-user-dropdown-wrap">
+                            <div className="user-dropdown">
+                                <h2>{this.state.user ? this.state.user.data.email : null}</h2>
+                                <BsChevronDown color={"white"} style={{width:'16px', height:'16px', paddingLeft:'.5rem'}}/>
+                            </div> 
+                            <div className="menu">
+                                <Link to="/login" onClick={this.signOut}>Sign out</Link>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="reader-body" style={{backgroundColor: this.state.nightMode ? 'black' : 'white'}}>
                         <div className="reader-controls">
-                            <IoMdArrowBack style={{width:'36px', height:'36px'}} onClick={() => this.props.history.push("/")} />
                             <ReaderControl 
                                 file={this.state.file}
                                 handleChange = {this.handleChange}
@@ -41,19 +72,61 @@ class Reader extends Component {
                                 handleColorChange = {this.handleColorChange}
                                 handleSliderChange = {this.handleSliderChange}
                                 handleHighlighter = {this.handleHighlighter}
-                                >    
+                                showHighlights={this.state.showHighlights}
+                                handleAnnotations={this.handleAnnotations}
+                                showAnnotations={this.state.showAnnotations}
+                                toggleNightMode={this.toggleNightMode}
+                                nightMode = {this.state.nightMode}
+                                >   
                             </ReaderControl>
                         </div>
                         <div className="reader-main">
-                            <h1>{this.state.file.title}</h1>
+                            <h1 style={{color: this.state.nightMode ? 'white' : 'black'}}>{this.state.file.title}</h1>
                             {this.renderText()}
                         </div>
-                        <div className="reader-annotations">
+                        <div className="reader-annotations" >
+                            <div style={{display:this.state.showAnnotations ? 'block' : 'none'}}>
+                                <p style={{color: this.state.nightMode ? "white" : "black"}}>ANNOTATIONS ({this.state.file.annotations.length})</p>
+                                <MuiThemeProvider theme={theme}>
+                                    <TextField
+                                        id="outlined-multiline-static"
+                                        label="New annotation"
+                                        multiline
+                                        fullWidth
+                                        variant="outlined"
+                                        color={theme.primary}
+                                        value={this.state.currentAnnotation}
+                                        inputProps={{
+                                            style: {
+                                                borderRadius: 0,
+                                                fontSize:'.75em',
+                                                color: this.state.nightMode ? "white" : "black",
+                                            }
+                                        }}
+                                        InputLabelProps={{
+                                            style: {
+                                                color: this.state.nightMode ? "white" : "#757575", 
+                                            }
+                                        }}
+                                        onChange={this.updateCurrentAnnotation}
+                                    /> 
+                                </MuiThemeProvider>
+                                <button className="annotation-submit" 
+                                style={{backgroundColor: this.state.nightMode ? "black" : "white"}}
+                                onClick={this.addAnnotation}>Add annotation</button>
+                                {this.renderAnnotations()}
+                            </div> 
                         </div>
                     </div> 
+                </div>
             );
         }
         return ( <div></div> );
+    }
+
+    componentDidMount = () => {
+        this.loadFile();
+        this.getUser();
     }
 
     buildText = () => {
@@ -73,7 +146,8 @@ class Reader extends Component {
         }, () => this.updateFile());
     }
     handleHighlighter = () => {
-        this.setState({highlightToggle:!this.state.highlightToggle,})
+        console.log('h')
+        this.setState({showHighlights:!this.state.showHighlights,})
     }
     handleClick = () => {
         this.setState({ displayColorPicker: !this.state.displayColorPicker });
@@ -120,11 +194,11 @@ class Reader extends Component {
     }
 
     renderText = () => {
-        if (this.state.highlightToggle) {
+        if (this.state.showHighlights) {
             return ( 
                 <TextAnnotator
                     style={{
-                        color: `#${this.state.file.color}`,
+                        color: this.state.nightMode ? 'white' : `#${this.state.file.color}`,
                         fontFamily: this.state.file.font_family,
                         fontSize: `${this.state.file.font_size}pt`,
                         lineHeight: this.state.file.line_height,
@@ -132,8 +206,7 @@ class Reader extends Component {
                     content={this.state.file.contents}
                     value={this.state.prefs.highlights}
                     onChange={this.addHighlight}
-                    onClick = {e=>console.log(e)}
-                    getSpan={span => ({
+                    getSpan={ span => ({
                     ...span,
                     color: "#fff2ac",
                     })}
@@ -143,7 +216,7 @@ class Reader extends Component {
         else {
             return (
                 <p style={{
-                    color: `#${this.state.file.color}`,
+                    color: this.state.nightMode ? 'white' : `#${this.state.file.color}`,
                     fontFamily: this.state.file.font_family,
                     fontSize: `${this.state.file.font_size}pt`,
                     lineHeight: this.state.file.line_height,}}
@@ -217,18 +290,64 @@ class Reader extends Component {
         }
     }
 
-    componentDidMount = () => {
-        this.loadFile();
-    }
 
     loadFile = () => {
         axiosInstance.get(`/documents/${this.props.match.params.pk}/`)
         .then ( (response) => {
-            this.setState({file: response.data}, ()=> this.buildHighlights());
+            this.setState({file: response.data}, ()=> {
+                this.buildHighlights()
+                this.renderAnnotations();
+            });
         }).catch( err => {
             console.log(err);
         })
     }
 
+    getUser = () => {
+        axiosInstance.get('/user/').then ((user) => this.setState({user}));
+    }
+
+    toggleNightMode = () => {
+        this.setState({
+            nightMode:!this.state.nightMode,
+            prefs: {
+                ...this.state.prefs,
+                color:'ffffff',
+            }
+        }, () => this.renderText())
+    }
+
+    renderAnnotations = () => {
+        if (this.state.file) {
+            return this.state.file.annotations.map(a => {
+                return <Annotation key={a.pk} annotation={a} deleteAnnotation = {this.deleteAnnotation} nightMode ={this.state.nightMode}/>
+            })
+        }
+    }
+    updateCurrentAnnotation = e => {
+        this.setState({currentAnnotation: e.target.value});
+    }
+
+    addAnnotation = () => {
+        axiosInstance.post(`/annotations/${this.props.match.params.pk}/`,{
+            start_char:0, //placeholders
+            end_char:1,
+            contents:this.state.currentAnnotation,
+        })
+        .then( () => {
+            this.loadFile()
+        })
+        this.setState({currentAnnotation:''})
+    }
+    deleteAnnotation = (pk) => {
+        axiosInstance.delete(`/annotation/${pk}/`);
+        this.loadFile()
+    }
+
+    handleAnnotations = () => {
+        this.setState({
+            showAnnotations: !this.state.showAnnotations,
+        })
+    }
 }
 export default Reader;
