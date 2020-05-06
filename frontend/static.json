@@ -1,4 +1,5 @@
 {
+    "root": "build/",
     "headers": {
     "/**": {
       "X-Frame-Options": "SAMEORIGIN"
