@@ -24,7 +24,7 @@ class Annotation extends Component {
     render() {
         return(
             <div className="annotation-wrap" onMouseOver={this.setHoverIn} onMouseLeave={this.setHoverOut}>
-                {this.state.active ? (<IoMdClose className="annotation-close" onClick={() => this.props.deleteAnnotation(this.props.annotation.pk)}/>) : null}
+                {this.state.active ? (<span style={{color:this.props.nightMode ? "white" : "grey"}}><IoMdClose className="annotation-close" onClick={() => this.props.deleteAnnotation(this.props.annotation.pk)}/></span>) : null}
                 <p style={{color:this.props.nightMode ? "white" : "black"}}>{this.props.annotation.contents}</p>
             </div>
         )
