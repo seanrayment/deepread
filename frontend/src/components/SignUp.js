@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axiosInstance from '../axiosApi';
+import BeatLoader from 'react-spinners/BeatLoader';
 
 class SignUp extends Component{
     constructor(props){
@@ -8,6 +9,7 @@ class SignUp extends Component{
             email:"",
             password: "",
             errors: {},
+            loading: false
         };
     }
 
@@ -19,6 +21,7 @@ class SignUp extends Component{
 
     handleSubmit = async(event) => {
         event.preventDefault();
+        this.setState({loading: true})
         try {
             await axiosInstance.post('/user/create/', {
                 email: this.state.email,
@@ -35,9 +38,11 @@ class SignUp extends Component{
             localStorage.setItem('refresh_token', res.data.refresh);
 
             await this.props.checkAuth()
+            this.setState(({loading: false}))
             this.props.history.push("/");
 
         } catch (error) {
+            this.setState(({loading: false}))
             console.log(error.stack);
             this.setState({errors: error.response.data});
         }
@@ -73,7 +78,7 @@ class SignUp extends Component{
                                     { this.state.errors.password && this.state.errors.password.length && this.renderErrors(this.state.errors.password) }
                                     <input type="password" placeholder="Enter your password" name = "password" value={this.state.password} onChange={this.handleChange}/>
                                 </label>
-                                <input type="submit" value = "Register" />
+                                { this.state.loading ? <div className="loader"><BeatLoader className="loader" size={14} color="#723EE0" /></div> : <input type="submit" value = "Register" /> }
                             </form>
                         </div>
                     </div>
