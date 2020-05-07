@@ -52,6 +52,7 @@ class DocumentSerializer(serializers.ModelSerializer):
             'num_chars', 
             'contents', 
             'title', 
+            'dark_mode',
             'font_family', 
             'color', 
             'font_size', 
