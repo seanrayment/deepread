@@ -286,6 +286,10 @@
   width:50%;
   box-sizing: border-box;
 }
+
+.files-plus{
+  font-size:24px;
+}
 .file-metadata{
   display:flex;
   flex-direction: column;
@@ -537,6 +541,7 @@ span.highlight {
   margin:0;
   padding:0;
   font-weight:600;
+  cursor:pointer;
 }
 
 .reader-banner h2{
@@ -544,9 +549,6 @@ span.highlight {
   color:white;
   font-weight:300;
 }
-.reader-main span {
-}
-
 
 .reader-dropdown-menu {
   display:none;

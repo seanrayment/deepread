@@ -142,10 +142,6 @@ class Dashboard extends Component {
         });
     }
 
-    createDocument = () => {
-
-    }
-
     filterAndSearch = () => {
         console.log(this.state.fileList);
         return this.state.fileList.filter(file => file.props.owner.trim().toLowerCase().includes(this.state.searchChars));

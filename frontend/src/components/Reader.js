@@ -80,7 +80,7 @@ class Reader extends Component {
                                 >   
                             </ReaderControl>
                         </div>
-                        <div className="reader-main">
+                        <div className="reader-main" onClick={((e) => this.handleReaderClick(e))}>
                             <h1 style={{color: this.state.nightMode ? 'white' : 'black'}}>{this.state.file.title}</h1>
                             {this.renderText()}
                         </div>
@@ -146,7 +146,6 @@ class Reader extends Component {
         }, () => this.updateFile());
     }
     handleHighlighter = () => {
-        console.log('h')
         this.setState({showHighlights:!this.state.showHighlights,})
     }
     handleClick = () => {
@@ -229,7 +228,6 @@ class Reader extends Component {
     }
 
     addHighlight = async(value) => {
-        console.log(value);
         let highlights = this.state.prefs.highlights;
         let currValue = value[value.length-1];
         if (currValue && !isNaN(currValue.start) && !isNaN(currValue.end)){ //Account for the edge cases
@@ -340,6 +338,7 @@ class Reader extends Component {
         })
         this.setState({currentAnnotation:''})
     }
+
     deleteAnnotation = (pk) => {
         axiosInstance.delete(`/annotation/${pk}/`);
         this.loadFile()
@@ -354,6 +353,24 @@ class Reader extends Component {
         this.props.signOut().then( () => {
             this.props.history.push("/login");
         });
+    }
+
+    handleReaderClick = (e) => {
+        if (!this.state.showHighlights){
+            return;
+        }
+        let start = e.target.dataset.start;
+        let end = e.target.dataset.end;
+        let highlightCopy = this.state.prefs.highlights;
+        for (let h of highlightCopy) {
+            if (h.start == start && h.end == end) {
+                highlightCopy.splice(highlightCopy.indexOf(h), 1);
+                this.setState({
+                    highlights:highlightCopy
+                },
+                this.deleteHighlight(h.pk));
+            }
+        }
     }
 
 }
