@@ -176,9 +176,11 @@ class Reader extends Component {
                 font_size: this.state.prefs.font_size,
                 line_height: this.state.prefs.line_height,
                 char_width: this.state.prefs.char_width,
+                dark_mode: this.state.nightMode,
             })
             this.setState({
                 file: resp.data,
+                nightMode: resp.data.dark_mode
             }, () => this.buildHighlights())
         } catch (err) {
             console.log(err);
@@ -286,7 +288,7 @@ class Reader extends Component {
     loadFile = () => {
         axiosInstance.get(`/documents/${this.props.match.params.pk}/`)
         .then ( (response) => {
-            this.setState({file: response.data}, ()=> {
+            this.setState({file: response.data, nightMode: response.data.dark_mode}, ()=> {
                 this.buildHighlights()
                 this.renderAnnotations();
             });
@@ -300,13 +302,13 @@ class Reader extends Component {
     }
 
     toggleNightMode = () => {
+        const newMode = !this.state.nightMode;
         this.setState({
-            nightMode:!this.state.nightMode,
-            prefs: {
-                ...this.state.prefs,
-                color:'ffffff',
-            }
-        }, () => this.renderText())
+            nightMode: newMode,
+        }, () => {
+            this.updateFile();
+            this.renderText();
+        })
     }
 
     renderAnnotations = () => {

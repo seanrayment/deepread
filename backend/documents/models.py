@@ -30,6 +30,7 @@ class Document(models.Model):
         (TAHOMA, TAHOMA),
     ]
 
+    dark_mode = models.BooleanField(default=False)
     line_height = models.FloatField(default=1.0, validators=[MinValueValidator(0.5), MaxValueValidator(5.0)])
     font_size = models.IntegerField(default=14)
     char_width = models.IntegerField(default=80)

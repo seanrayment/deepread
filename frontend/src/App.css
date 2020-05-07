@@ -19,6 +19,16 @@ input{
   justify-content: center;
 }
 
+.notfound-body {
+  width:100vw;
+  min-height:110vh;
+  padding:0 34vw;
+  box-sizing: border-box; 
+  background: linear-gradient(to bottom right, #723EE0, #3E92CC); 
+  display:flex;
+  justify-content: center;
+}
+
 .login-content{
   width:100%;
   display: flex;
@@ -26,7 +36,21 @@ input{
   align-items: center;
 }
 
+.notfound-content {
+  width:100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .login-content h1{
+  color: white;
+  font-weight:bold;
+  padding: 2rem 0;
+  font-size: 3em;
+}
+
+.notfound-content h1{
   color: white;
   font-weight:bold;
   padding: 2rem 0;
@@ -44,6 +68,28 @@ input{
   box-sizing: border-box;
   margin-bottom:1rem;
 }
+
+.notfound-card{
+  width:100%;
+  background-color:#FDFDFD;
+  border-radius:10px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items:center;
+  box-sizing: border-box;
+  margin-bottom:1rem;
+  padding: 2rem;
+  font-weight: 400;
+}
+
+.notfound-illustration {
+  padding: 2rem;
+  display: block;
+  width: 300px;
+}
+
 .login-form{
   width:100%;
   padding:3.5rem;
@@ -65,6 +111,7 @@ input{
   float:right;
   color:#3E92CC;
 }
+
 .login-content input[type="email"], .login-content input[type="password"] {
   width:100%;
   height:3em;

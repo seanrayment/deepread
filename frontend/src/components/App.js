@@ -5,6 +5,7 @@ import SignUp from "./SignUp";
 import ThankYou from "./ThankYou";
 import Dashboard from "./Dashboard";
 import Reader from "./Reader";
+import PageNotFound from "./PageNotFound";
 import CreateDocument from "./CreateDocument";
 import '../App.css';
 import axiosInstance from "../axiosApi";
@@ -89,6 +90,12 @@ class App extends Component {
                         <Route exact path={"/create/"} render= { (props) => 
                             <CreateDocument {...props} user = {this.state.user} />
                         } /> 
+                        <Route exact path={"/(404|)/"} render = { (props) => 
+                            <PageNotFound></PageNotFound>
+                        } />
+                        <Route render = { (props) => 
+                            <Redirect to="/404"></Redirect>
+                        } />
 
                     </Switch>
                 </main>
