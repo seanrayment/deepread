@@ -43,10 +43,11 @@ axiosInstance.interceptors.response.use(
                     return axiosInstance(originalRequest);                
                 })
                 .catch(err => {
-                  console.log(err)
-                  return Promise.reject(error);
+                    window.location.replace("/404/");
+                    return Promise.reject(error);
                 });
             }
+            window.location.replace("/404/");
             return Promise.reject(error);
     }
 );
