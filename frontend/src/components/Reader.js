@@ -302,6 +302,7 @@ class Reader extends Component {
                 this.renderAnnotations();
             });
         }).catch( err => {
+            this.props.history.push('/404/');
             console.log(err);
         })
     }
