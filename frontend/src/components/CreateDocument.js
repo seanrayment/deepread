@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Link } from "react-router-dom";
 import { FaChevronDown } from 'react-icons/fa';
 import axiosInstance from '../axiosApi';
+import { BsFillPersonFill } from 'react-icons/bs'
+
 
 /**
  * TODO: error catching
@@ -43,7 +45,7 @@ class CreateDocument extends Component {
                         <Link to={"/"}><h1 className="logo">deepread.app</h1></Link>
                         <nav className="nav">
                             <div className="create-doc">
-                                <Link to={"/"} className="nav-link"><p>My documents</p></Link>
+                                <BsFillPersonFill style={{color:'white', padding:'1rem', width:18, height:18}}/>
                             </div> 
                             <div className="user-dropdown-wrapper">
                                 <div className="user-dropdown">

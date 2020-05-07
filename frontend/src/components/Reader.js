@@ -15,13 +15,6 @@ const theme = createMuiTheme({
         main: '#723EE0'
       }
     },
-    overrides: {
-        MuiOutlinedInput: {
-            root: {
-                borderColor: "#E0e0e0"
-            }
-        }
-    }
 });
   
 
@@ -51,14 +44,14 @@ class Reader extends Component {
         if (this.state.file) {
             return (
                 <div>
-                    <div className="reader-banner">
+                    <div className="reader-banner" style={{backgroundColor: this.state.nightMode ? 'black' : '#723EE0', borderBottom: this.state.nightMode ? '1px solid #723EE0' : 'none'}}>
                         <h1 onClick={() => this.props.history.push("/")}>deepread.app</h1>
                         <div className="reader-user-dropdown-wrap">
                             <div className="user-dropdown">
                                 <h2>{this.state.user ? this.state.user.data.email : null}</h2>
                                 <BsChevronDown color={"white"} style={{width:'16px', height:'16px', paddingLeft:'.5rem'}}/>
                             </div> 
-                            <div className="reader-dropdown-menu">
+                            <div className="reader-dropdown-menu" style={{backgroundColor: this.state.nightMode ? 'black' : 'white', border: this.state.nightMode ? '1px solid #723EE0' : 'none'}}>
                                 <Link to="/login" onClick={this.signOut}>Sign out</Link>
                             </div>
                         </div>
@@ -80,7 +73,7 @@ class Reader extends Component {
                                 >   
                             </ReaderControl>
                         </div>
-                        <div className="reader-main">
+                        <div className="reader-main" onClick={((e) => this.handleReaderClick(e))}>
                             <h1 style={{color: this.state.nightMode ? 'white' : 'black'}}>{this.state.file.title}</h1>
                             {this.renderText()}
                         </div>
@@ -89,13 +82,13 @@ class Reader extends Component {
                                 <p style={{color: this.state.nightMode ? "white" : "black"}}>ANNOTATIONS ({this.state.file.annotations.length})</p>
                                 <MuiThemeProvider theme={theme}>
                                     <TextField
-                                        id="outlined-multiline-static"
                                         label="New annotation"
                                         multiline
                                         fullWidth
                                         variant="outlined"
                                         color={theme.primary}
                                         value={this.state.currentAnnotation}
+                                        style={{border: this.state.nightMode ? '1px solid #9E9E9E' : 'none', borderRadius: this.state.nightMode ? '4px' : 0}} 
                                         inputProps={{
                                             style: {
                                                 borderRadius: 0,
@@ -105,14 +98,14 @@ class Reader extends Component {
                                         }}
                                         InputLabelProps={{
                                             style: {
-                                                color: this.state.nightMode ? "white" : "#757575", 
+                                                color: "#757575", 
                                             }
                                         }}
                                         onChange={this.updateCurrentAnnotation}
                                     /> 
                                 </MuiThemeProvider>
                                 <button className="annotation-submit" 
-                                style={{backgroundColor: this.state.nightMode ? "black" : "white"}}
+                                style={{backgroundColor: this.state.nightMode ? "black" : "transparent"}}
                                 onClick={this.addAnnotation}>Add annotation</button>
                                 {this.renderAnnotations()}
                             </div> 
@@ -146,7 +139,6 @@ class Reader extends Component {
         }, () => this.updateFile());
     }
     handleHighlighter = () => {
-        console.log('h')
         this.setState({showHighlights:!this.state.showHighlights,})
     }
     handleClick = () => {
@@ -231,7 +223,6 @@ class Reader extends Component {
     }
 
     addHighlight = async(value) => {
-        console.log(value);
         let highlights = this.state.prefs.highlights;
         let currValue = value[value.length-1];
         if (currValue && !isNaN(currValue.start) && !isNaN(currValue.end)){ //Account for the edge cases
@@ -343,6 +334,7 @@ class Reader extends Component {
         })
         this.setState({currentAnnotation:''})
     }
+
     deleteAnnotation = (pk) => {
         axiosInstance.delete(`/annotation/${pk}/`);
         this.loadFile()
@@ -357,6 +349,24 @@ class Reader extends Component {
         this.props.signOut().then( () => {
             this.props.history.push("/login");
         });
+    }
+
+    handleReaderClick = (e) => {
+        if (!this.state.showHighlights){
+            return;
+        }
+        let start = e.target.dataset.start;
+        let end = e.target.dataset.end;
+        let highlightCopy = this.state.prefs.highlights;
+        for (let h of highlightCopy) {
+            if (h.start == start && h.end == end) {
+                highlightCopy.splice(highlightCopy.indexOf(h), 1);
+                this.setState({
+                    highlights:highlightCopy
+                },
+                this.deleteHighlight(h.pk));
+            }
+        }
     }
 
 }

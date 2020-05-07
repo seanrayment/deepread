@@ -5,6 +5,7 @@ import { FaChevronDown } from 'react-icons/fa';
 import axiosInstance from '../axiosApi';
 import moment from 'moment';
 import Select from 'react-select';
+import { BsFillPersonFill } from 'react-icons/bs'
 
 const selectStyle = {
     control: (provided, state) => ({
@@ -39,7 +40,7 @@ class Dashboard extends Component {
                     <Link to={"/"}><h1 className="logo">deepread.app</h1></Link>
                     <nav className="nav">
                         <div className="create-doc">
-                            <Link className="nav-link" to="/create"><p>Create document</p></Link>
+                            <BsFillPersonFill style={{color:'white', padding:'1rem', width:18, height:18}}/>
                         </div> 
                         <div className="user-dropdown-wrapper">
                             <div className="user-dropdown">
@@ -56,7 +57,10 @@ class Dashboard extends Component {
                     <div className="files-header">
                     <h2>Documents</h2>
                         <div className="files-control">
-                            <input aria-label="Search" type="search" placeholder="Search for documents" onChange={this.updateSearch}></input>
+                            <div className="files-control-left">
+                                <input aria-label="Search" type="search" placeholder="Search for documents" onChange={this.updateSearch}></input>
+                                <Link to="/create"><button>Create document</button></Link>
+                            </div>
                             <Select 
                                 options={sortOptions}
                                 name="sortField"
@@ -75,7 +79,7 @@ class Dashboard extends Component {
                     </table>
                     ) : (
                     <div className="files-no-files">
-                        <p>No files to display. Create a file to get started</p>
+                        <p>No files to display. Create a document to get started.</p>
                     </div>
                     )}
                 </div>
@@ -136,10 +140,6 @@ class Dashboard extends Component {
         this.props.signOut().then( () => {
             this.props.history.push("/login");
         });
-    }
-
-    createDocument = () => {
-
     }
 
     filterAndSearch = () => {
