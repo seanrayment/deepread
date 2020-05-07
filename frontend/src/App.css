@@ -141,7 +141,6 @@
 }
 
 .nav{
-  width:400px;
   height:42px;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   display:flex;
@@ -171,6 +170,7 @@
 .user-dropdown-wrapper{
   box-sizing: border-box;
   flex:1;
+  position: relative;
 }
 .user-dropdown{
   display:flex;
@@ -195,13 +195,18 @@
 .menu {
   display:none;
   position:absolute;
-  background-color: #FAFAFA;
-  right:10vw;
+  background-color: #FFFFFF;
+  top:100%;
+  transition:.1s ease-in-out background-color;
   min-width:128px;
   box-shadow: 0 4px 4px 0 rgba(0,0,0,0.2);
   z-index: 0;
   padding:1rem;
   border-radius:0 0 5px 5px;
+  right:0;
+}
+.menu:hover {
+  background-color:#ECEFF1;
 }
 .menu a {
   padding:1rem 0;
@@ -231,17 +236,37 @@
   justify-content: space-between;
 }
 .files-control input[type="search"] {
-  margin:1rem 0;
   padding:0 .5rem;
   border:1px solid #E0E0E0;
-  width:364px;
+  width:324px;
   height:36px;
+  border-radius:2px;
 }
 
 .files-control input[type="search"]::placeholder{
   font-size:16px;
   color:grey;
   font-weight: 300;
+}
+
+.files-control-left{
+  display:flex;
+  margin:1rem 0;
+}
+
+.files-control-left button {
+  height:36px;
+  width:200px;
+  border:1px solid #723EE0;
+  background-color:#723EE0;
+  border-radius:2px;
+  color:white;
+  margin:0;
+  padding:0;
+  margin-left:1rem;
+  font-size:1em;
+  font-weight:500;
+  cursor:pointer;
 }
 
 .files-content table{
@@ -411,6 +436,7 @@ span.highlight {
 
 .reader-main{
   width:50%;
+  white-space: pre-line;
 }
 .reader-controls{
   position: sticky;
