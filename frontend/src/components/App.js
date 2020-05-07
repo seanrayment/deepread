@@ -88,7 +88,7 @@ class App extends Component {
                             <Reader {...props} signOut = {this.handleLogout}/> } 
                         />
                         <Route exact path={"/create/"} render= { (props) => 
-                            <CreateDocument {...props} user = {this.state.user} />
+                            <CreateDocument {...props} user = {this.state.user} signOut = {this.handleLogout} />
                         } /> 
                         <Route exact path={"/(404|)/"} render = { (props) => 
                             <PageNotFound></PageNotFound>
