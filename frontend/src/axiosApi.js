@@ -43,11 +43,9 @@ axiosInstance.interceptors.response.use(
                     return axiosInstance(originalRequest);                
                 })
                 .catch(err => {
-                    window.location.replace("/404/");
                     return Promise.reject(error);
                 });
             }
-            window.location.replace("/404/");
             return Promise.reject(error);
     }
 );
