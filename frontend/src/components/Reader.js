@@ -15,13 +15,6 @@ const theme = createMuiTheme({
         main: '#723EE0'
       }
     },
-    overrides: {
-        MuiOutlinedInput: {
-            root: {
-                borderColor: "#E0e0e0"
-            }
-        }
-    }
 });
   
 
@@ -51,14 +44,14 @@ class Reader extends Component {
         if (this.state.file) {
             return (
                 <div>
-                    <div className="reader-banner">
+                    <div className="reader-banner" style={{backgroundColor: this.state.nightMode ? 'black' : '#723EE0', borderBottom: this.state.nightMode ? '1px solid #723EE0' : 'none'}}>
                         <h1 onClick={() => this.props.history.push("/")}>deepread.app</h1>
                         <div className="reader-user-dropdown-wrap">
                             <div className="user-dropdown">
                                 <h2>{this.state.user ? this.state.user.data.email : null}</h2>
                                 <BsChevronDown color={"white"} style={{width:'16px', height:'16px', paddingLeft:'.5rem'}}/>
                             </div> 
-                            <div className="reader-dropdown-menu">
+                            <div className="reader-dropdown-menu" style={{backgroundColor: this.state.nightMode ? 'black' : 'white', border: this.state.nightMode ? '1px solid #723EE0' : 'none'}}>
                                 <Link to="/login" onClick={this.signOut}>Sign out</Link>
                             </div>
                         </div>
@@ -89,13 +82,13 @@ class Reader extends Component {
                                 <p style={{color: this.state.nightMode ? "white" : "black"}}>ANNOTATIONS ({this.state.file.annotations.length})</p>
                                 <MuiThemeProvider theme={theme}>
                                     <TextField
-                                        id="outlined-multiline-static"
                                         label="New annotation"
                                         multiline
                                         fullWidth
                                         variant="outlined"
                                         color={theme.primary}
                                         value={this.state.currentAnnotation}
+                                        style={{border: this.state.nightMode ? '1px solid #9E9E9E' : 'none', borderRadius: this.state.nightMode ? '4px' : 0}} 
                                         inputProps={{
                                             style: {
                                                 borderRadius: 0,
@@ -105,14 +98,14 @@ class Reader extends Component {
                                         }}
                                         InputLabelProps={{
                                             style: {
-                                                color: this.state.nightMode ? "white" : "#757575", 
+                                                color: "#757575", 
                                             }
                                         }}
                                         onChange={this.updateCurrentAnnotation}
                                     /> 
                                 </MuiThemeProvider>
                                 <button className="annotation-submit" 
-                                style={{backgroundColor: this.state.nightMode ? "black" : "white"}}
+                                style={{backgroundColor: this.state.nightMode ? "black" : "transparent"}}
                                 onClick={this.addAnnotation}>Add annotation</button>
                                 {this.renderAnnotations()}
                             </div> 

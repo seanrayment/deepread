@@ -20,7 +20,7 @@ const swatch = ["#000000","#424242", "#9E9E9E", "#1565C0", "#E53935", "#4CAF50"]
 const selectStyle = {
     control: (provided, state) => ({
         ...provided,
-        border:'1px solid #e0e0e0',
+        border:state.selectProps.nightMode ? '1px solid #757575' : '1px solid #e0e0e0',
         marginBottom:'1rem',
         backgroundColor: state.selectProps.nightMode ? 'black' : 'white',
     }),
@@ -94,7 +94,7 @@ class ReaderControl extends Component {
                     </div>
                 </div>
                 { this.state.displayPanel ?
-                    <div className="reader-prefs">
+                    <div className="reader-prefs" style={{borderColor:this.props.nightMode ? '#757575' : '#e0e0e0'}}>
                         <div className="reader-panel-close-box">
                         <MuiThemeProvider theme={theme}>
                             <FormControlLabel
