@@ -126,12 +126,12 @@ example response
 | ------------- |---------------| 
 | `title` (optional)      | `String` document's title, default is "My new document" | 
 | `contents` (optional)      | `String` defaults to empty string |
-  | `font_family` (optional)      | `String` One of: 'Georgia', 'Serif', 'Time New Roman', 'Arial', 'Helvetica', 'sans_serif', 'Tahoma' |
-  | `color` (optional)      | `String` must be valid 6 digit hex string e.g. `"0a0a0a"` |
+| `font_family` (optional)      | `String` One of: 'Georgia', 'Serif', 'Time New Roman', 'Arial', 'Helvetica', 'sans_serif', 'Tahoma' |
+| `color` (optional)      | `String` must be valid 6 digit hex string e.g. `"0a0a0a"` |
+| `line_height` (optional) | `Float` between .5 and 5.0, inclusive |
 | `font_size` (optional)      | `Integer` font size to be used in px |
+| `dark_mode` (optional)      | `Boolean` indicates whether reader will display dark mode |
   | `char_width` (optional)      | `Integer` char width to be used in ch | 
-    | `line_height` (optional)      | `Float` between .5 and 5.0, inclusive |
-   | `dark_mode` (optional)      | `Boolean` indicates whether reader will display dark mode |
 
 #### Updating a document
 `PUT /api/documents/<int:pk>/`
@@ -145,10 +145,11 @@ example response
 | `contents` (optional)      | `String` defaults to empty string |
   | `font_family` (optional)      | `String` One of: 'Georgia', 'Serif', 'Time New Roman', 'Arial', 'Helvetica', 'sans_serif', 'Tahoma' |
   | `color` (optional)      | `String` must be valid 6 digit hex string e.g. `"0a0a0a"` |
+  | `line_height` (optional) | `Float` between 0.5 and 5.0 |
 | `font_size` (optional)      | `Integer` font size to be used in px |
-  | `char_width` (optional)      | `Integer` char width to be used in ch | 
-    | `line_height` (optional)      | `Float` between .5 and 5.0, inclusive |
    | `dark_mode` (optional)      | `Boolean` indicates whether reader will display dark mode|
+  | `char_width` (optional)      | `Integer` char width to be used in ch | 
+
   
 #### Getting a document
 `GET /api/documents/<int:pk>/`
