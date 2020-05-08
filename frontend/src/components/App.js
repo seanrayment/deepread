@@ -73,32 +73,31 @@ class App extends Component {
         return (
             <div className="site">
                 <main>
-                    <BrowserRouter>
-                        <Switch>
-                            <Route exact path={"/login/"} render = { (props) => 
-                                (!this.state.isAuthed ? <Login {...props} checkAuth={this.checkAuth}/> : <Redirect to="/"/>)}
-                            />
-                            <Route exact path={"/register/"} render ={ (props) => 
-                                <SignUp {...props} checkAuth = {this.checkAuth} ></SignUp>}
-                            />
-                            <Route exact path={"/thankyou/"} component={ThankYou}/>                        
-                            <Route exact path={"/(dashboard|)/"} render = { (props) => 
-                                (this.state.isAuthed ? <Dashboard {...props} user = {this.state.user} signOut = {this.handleLogout} /> : <Redirect to="/login" /> )}
-                            />
-                            <Route exact path={"/document/:pk"} render = { (props) => 
-                                <Reader {...props} signOut = {this.handleLogout}/> } 
-                            />
-                            <Route exact path={"/create/"} render= { (props) => 
-                                <CreateDocument {...props} user = {this.state.user} />
-                            } /> 
-                            <Route exact path={"/(404|)/"} render = { (props) => 
-                                <PageNotFound></PageNotFound>
-                            } />
-                            <Route render = { (props) => 
-                                <Redirect to="/404"></Redirect>
-                            } />
-                        </Switch>
-                    </BrowserRouter>
+                    <Switch>
+                        <Route exact path={"/login/"} render = { (props) => 
+                            (!this.state.isAuthed ? <Login {...props} checkAuth={this.checkAuth}/> : <Redirect to="/"/>)}
+                        />
+                        <Route exact path={"/register/"} render ={ (props) => 
+                            <SignUp {...props} checkAuth = {this.checkAuth} ></SignUp>}
+                        />
+                        <Route exact path={"/thankyou/"} component={ThankYou}/>                        
+                        <Route exact path={"/(dashboard|)/"} render = { (props) => 
+                            (this.state.isAuthed ? <Dashboard {...props} user = {this.state.user} signOut = {this.handleLogout} /> : <Redirect to="/login" /> )}
+                        />
+                        <Route exact path={"/document/:pk"} render = { (props) => 
+                            <Reader {...props} signOut = {this.handleLogout}/> } 
+                        />
+                        <Route exact path={"/create/"} render= { (props) => 
+                            <CreateDocument {...props} user = {this.state.user} signOut = {this.handleLogout} />
+                        } /> 
+                        <Route exact path={"/(404|)/"} render = { (props) => 
+                            <PageNotFound></PageNotFound>
+                        } />
+                        <Route render = { (props) => 
+                            <Redirect to="/404"></Redirect>
+                        } />
+
+                    </Switch>
                 </main>
             </div>
       );

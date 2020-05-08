@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axiosInstance from "../axiosApi";
-
+import BeatLoader from 'react-spinners/BeatLoader';
 
 class Login extends Component {
 
@@ -10,6 +10,7 @@ class Login extends Component {
             email: "",
             password: "",
             errors: {},
+            loading: false,
         };
     }
 
@@ -30,6 +31,7 @@ class Login extends Component {
      */
     handleSubmit = async(event) => {
         event.preventDefault();
+        this.setState({loading: true});
 
         try {
             let res = await axiosInstance.post('/token/obtain/', {
@@ -41,9 +43,11 @@ class Login extends Component {
             localStorage.setItem('refresh_token', res.data.refresh);
 
             await this.props.checkAuth();
+            this.setState({loading: false});
             this.props.history.push("/");
 
         } catch (error) {
+            this.setState({loading: false});
             console.log(error.stack);
             this.setState({errors: error.response.data});
         }
@@ -88,7 +92,8 @@ class Login extends Component {
                                     <input type="password" onChange={this.handleChange} name="password" placeholder="Enter your password"/>
                                 </label>
 
-                                <input type="submit" value = "Submit" />
+                                { this.state.loading ? <div className="loader"><BeatLoader className="loader" size={14} color="#723EE0" /></div> : <input type="submit" value = "Submit" /> }
+
                                 { this.state.errors.detail && this.renderError(this.state.errors.detail) }
                             </form>
                         </div>

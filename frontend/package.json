@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.19.2",
     "enzyme": "^3.11.0",
+    "emotion": "^10.0.27",
     "eslint": "^6.8.0",
     "moment": "2.18.1",
     "react": "^16.13.1",
@@ -20,6 +21,7 @@
     "react-scripts": "3.4.0",
     "react-select": "^3.1.0",
     "react-test-renderer": "^16.13.1",
+    "react-spinners": "^0.8.3",
     "react-text-annotate": "^0.3.0"
   },
   "scripts": {

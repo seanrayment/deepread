@@ -8,6 +8,10 @@ input{
   font-size:1em;
 }
 
+.loader {
+  text-align: center;
+}
+
 /* Login */
 .login-body{
   width:100vw;

@@ -37,6 +37,12 @@ class CreateDocument extends Component {
         this.setState({[event.target.name]: event.target.value});
     }
 
+    signOut = () => {
+        this.props.signOut().then( () => {
+            this.props.history.push("/login");
+        });
+    }
+
     render () {
         if (this.props.user !== null){
             return(
