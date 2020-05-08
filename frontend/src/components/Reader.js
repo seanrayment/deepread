@@ -44,7 +44,7 @@ class Reader extends Component {
         if (this.state.file) {
             return (
                 <div>
-                    <div className="reader-banner" style={{backgroundColor: this.state.nightMode ? 'black' : '#723EE0', borderBottom: this.state.nightMode ? '1px solid #723EE0' : 'none'}}>
+                    <div className="reader-banner" style={{backgroundColor: this.state.nightMode ? 'black' : '#723EE0', borderBottom: this.state.nightMode ? '1px solid #381e6f' : 'none'}}>
                         <h1 onClick={() => this.props.history.push("/")}>deepread.app</h1>
                         <div className="reader-user-dropdown-wrap">
                             <div className="user-dropdown">

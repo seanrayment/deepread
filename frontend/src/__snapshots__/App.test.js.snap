@@ -1,0 +1,166 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`x displays when hovering file 1`] = `
+<tr
+  onMouseLeave={[Function]}
+  onMouseOver={[Function]}
+>
+  <td>
+    <p
+      className="file-title"
+      onClick={[Function]}
+    >
+      My Test File
+    </p>
+  </td>
+  <td>
+    <div
+      className="file-metadata"
+    >
+      <p
+        className="file-metadata-descriptor"
+      >
+        last modified 
+        <span>
+          50 years ago
+        </span>
+      </p>
+      <p
+        className="file-metadata-descriptor"
+      >
+        created on 
+        <span>
+          December 31 1969
+        </span>
+      </p>
+    </div>
+  </td>
+  <td>
+    <div
+      className="file-dot-menu-wrap"
+    />
+  </td>
+</tr>
+`;
+
+exports[`x displays when hovering file 2`] = `
+<tr
+  onMouseLeave={[Function]}
+  onMouseOver={[Function]}
+>
+  <td>
+    <p
+      className="file-title"
+      onClick={[Function]}
+    >
+      My Test File
+    </p>
+  </td>
+  <td>
+    <div
+      className="file-metadata"
+    >
+      <p
+        className="file-metadata-descriptor"
+      >
+        last modified 
+        <span>
+          50 years ago
+        </span>
+      </p>
+      <p
+        className="file-metadata-descriptor"
+      >
+        created on 
+        <span>
+          December 31 1969
+        </span>
+      </p>
+    </div>
+  </td>
+  <td>
+    <div
+      className="file-dot-menu-wrap"
+    >
+      <div
+        className="file-dots"
+      >
+        <svg
+          fill="currentColor"
+          height="1em"
+          onClick={[Function]}
+          stroke="currentColor"
+          strokeWidth="0"
+          style={
+            Object {
+              "color": "#212121",
+              "height": "24px",
+              "width": "24px",
+            }
+          }
+          viewBox="0 0 16 16"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            clipRule="evenodd"
+            d="M3 9.5a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm5 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm5 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3z"
+            fillRule="evenodd"
+          />
+        </svg>
+        <div
+          className="file-menu"
+          onClick={[Function]}
+        >
+          <p>
+            Delete document
+          </p>
+        </div>
+      </div>
+    </div>
+  </td>
+</tr>
+`;
+
+exports[`x displays when hovering file 3`] = `
+<tr
+  onMouseLeave={[Function]}
+  onMouseOver={[Function]}
+>
+  <td>
+    <p
+      className="file-title"
+      onClick={[Function]}
+    >
+      My Test File
+    </p>
+  </td>
+  <td>
+    <div
+      className="file-metadata"
+    >
+      <p
+        className="file-metadata-descriptor"
+      >
+        last modified 
+        <span>
+          50 years ago
+        </span>
+      </p>
+      <p
+        className="file-metadata-descriptor"
+      >
+        created on 
+        <span>
+          December 31 1969
+        </span>
+      </p>
+    </div>
+  </td>
+  <td>
+    <div
+      className="file-dot-menu-wrap"
+    />
+  </td>
+</tr>
+`;

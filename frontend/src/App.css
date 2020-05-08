@@ -235,7 +235,7 @@ input{
   box-sizing: border-box;
   cursor:pointer;
   max-height:100%;
-  padding:1rem;
+  padding:0 1rem;
 }
 
 .user-dropdown p {
@@ -303,7 +303,7 @@ input{
 
 .files-control input[type="search"]::placeholder{
   font-size:16px;
-  color:grey;
+  color:#808080;
   font-weight: 300;
 }
 
@@ -459,10 +459,12 @@ input{
   box-shadow: 0 4px 4px 0 rgba(0,0,0,0.2);
   z-index: 0;
   padding:.5rem;
+  transition:.1s ease-in-out background-color;
   border-radius:0 0 5px 5px;
 }
 .file-menu:hover{
   background-color: #EEEEEE;
+  
   cursor:pointer;
 }
 .file-menu p{
@@ -481,7 +483,7 @@ input{
   padding:2rem;
 }
 .reader-annotations {
-  padding-right:4rem;
+  padding:4rem 2rem;
 }
 .reader-body{
   display:flex;
@@ -501,6 +503,7 @@ span.highlight {
 .reader-main{
   width:50%;
   white-space: pre-line;
+  margin-bottom:7rem;
 }
 .reader-controls{
   position: sticky;
@@ -587,7 +590,7 @@ span.highlight {
 .reader-banner{
   width:100vw;
   box-sizing: border-box;
-  height:3em;
+  height:3.5em;
   background-color: #723EE0;
   margin:0;
   display: flex;
@@ -613,8 +616,8 @@ span.highlight {
 .reader-dropdown-menu {
   display:none;
   position:absolute;
-  background-color: #FAFAFA;
   right:4rem;
+  transition: background-color .15s ease-in-out;
   min-width:128px;
   box-shadow: 0 4px 4px 0 rgba(0,0,0,0.2);
   z-index: 0;
@@ -622,13 +625,15 @@ span.highlight {
   border-radius:0 0 5px 5px;
 }
 .reader-dropdown-menu a {
-  padding:1rem 0;
-  color:#723EE0;
+  padding:1rem 0; 
   text-decoration: none;
 }
 
 .reader-user-dropdown-wrap:hover .reader-dropdown-menu{
   display:block;
+}
+.reader-dropdown-menu:hover{
+  background-color:#ECEFF1;
 }
 .reader-annotations p{
   margin:0;
