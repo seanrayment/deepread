@@ -5,7 +5,7 @@ Dependencies:
 * sqlite
 * npm / yarn
 
-## Local setup (macOS)
+## How to run locally (macOS)
 
 You will need to run the frontend and backend servers to run this project.
 
