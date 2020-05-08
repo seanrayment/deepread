@@ -77,9 +77,9 @@ If your browser doesn't automatically open, you can visit the web app at:
 `POST /api/user/create/`
 | param         | description   | 
 | ------------- |---------------| 
-| `username`      | <String> must be unique | 
-| `email`      | <String> must be unique and valid email format      |  
-| `password` | <String> at least 8 characters      |  
+| `username`      | `String` must be unique | 
+| `email`      | `String` must be unique and valid email format      |  
+| `password` | `String` at least 8 characters      |  
 
 
 #### Obtaining a JWT token pair (User login) 
@@ -87,20 +87,20 @@ If your browser doesn't automatically open, you can visit the web app at:
 
 | param         | description   | 
 | ------------- |---------------| 
-| `username`      | <String> must match an existing user | 
-| `password` | <String>      |  
+| `username`      | `String` must match an existing user | 
+| `password` | `String`      |  
 
 #### Refreshing an access token (extending 5-minute user session)
 `POST /api/token/refresh/`
 | param         | description   | 
 | ------------- |---------------| 
-| `refresh`      | <String> valid JWT refresh token from last 2 weeks | 
+| `refresh`      | `String` valid JWT refresh token from last 2 weeks | 
   
 #### Blacklisting JWT token (User logout)
 `POST /api/blacklist/`
 | param         | description   | 
 | ------------- |---------------| 
-| `refresh_token`      | <String> JWT refresh token | 
+| `refresh_token`      | `String` JWT refresh token | 
 
 #### Get User Info
 `GET /api/user/`
@@ -124,14 +124,14 @@ example response
 
 | param         | description   | 
 | ------------- |---------------| 
-| `title` (optional)      | <String> document's title, default is "My new document" | 
-| `contents` (optional)      | <String> defaults to empty string |
-  | `font_family` (optional)      | <String> One of: 'Georgia', 'Serif', 'Time New Roman', 'Arial', 'Helvetica', 'sans_serif', 'Tahoma' |
-  | `color` (optional)      | <String> must be valid 6 digit hex string e.g. `"0a0a0a"` |
-| `font_size` (optional)      | <Integer> font size to be used in px |
-  | `char_width` (optional)      | <Integer> char width to be used in ch | 
-    | `line_height` (optional)      | <Float> between .5 and 5.0, inclusive |
-   | `dark_mode` (optional)      | <Boolean> |
+| `title` (optional)      | `String` document's title, default is "My new document" | 
+| `contents` (optional)      | `String` defaults to empty string |
+  | `font_family` (optional)      | `String` One of: 'Georgia', 'Serif', 'Time New Roman', 'Arial', 'Helvetica', 'sans_serif', 'Tahoma' |
+  | `color` (optional)      | `String` must be valid 6 digit hex string e.g. `"0a0a0a"` |
+| `font_size` (optional)      | `Integer` font size to be used in px |
+  | `char_width` (optional)      | `Integer` char width to be used in ch | 
+    | `line_height` (optional)      | `Float` between .5 and 5.0, inclusive |
+   | `dark_mode` (optional)      | `Boolean` indicates whether reader will display dark mode |
 
 #### Updating a document
 `PUT /api/documents/<int:pk>/`
@@ -141,14 +141,14 @@ example response
 
 | param         | description   | 
 | ------------- |---------------| 
-| `title` (optional)      | <String> document's title, default is "My new document" | 
-| `contents` (optional)      | <String> defaults to empty string |
-  | `font_family` (optional)      | <String> One of: 'georgia', 'serif', 'times_new_roman', 'arial', 'helvetica', 'sans_serif', 'tahoma' |
-  | `color` (optional)      | <String> must be valid 6 digit hex string e.g. `"0a0a0a"` |
-| `font_size` (optional)      | <Integer> font size to be used in px |
-  | `char_width` (optional)      | <Integer> char width to be used in ch | 
-      | `line_height` (optional)      | <Float> between .5 and 5.0, inclusive |
-  | `dark_mode` (optional)      | <Boolean> |
+| `title` (optional)      | `String` document's title, default is "My new document" | 
+| `contents` (optional)      | `String` defaults to empty string |
+  | `font_family` (optional)      | `String` One of: 'Georgia', 'Serif', 'Time New Roman', 'Arial', 'Helvetica', 'sans_serif', 'Tahoma' |
+  | `color` (optional)      | `String` must be valid 6 digit hex string e.g. `"0a0a0a"` |
+| `font_size` (optional)      | `Integer` font size to be used in px |
+  | `char_width` (optional)      | `Integer` char width to be used in ch | 
+    | `line_height` (optional)      | `Float` between .5 and 5.0, inclusive |
+   | `dark_mode` (optional)      | `Boolean` indicates whether reader will display dark mode|
   
 #### Getting a document
 `GET /api/documents/<int:pk>/`
@@ -222,8 +222,8 @@ Note: pk is the primary key of the associated document
 
 | param         | description   | 
 | ------------- |---------------| 
-| `start_char`      | <Integer> index of start character in associated document | 
-| `end_char` | <Integer> index of end character in associated document     |
+| `start_char`      | `Integer` index of start character in associated document | 
+| `end_char` | `Integer` index of end character in associated document     |
 
 #### Getting highlights
 `GET /api/highlights/<int:pk>`
@@ -255,8 +255,8 @@ Note: pk is the primary key of the highlight
 
 | param         | description   | 
 | ------------- |---------------| 
-| `start_char` (optional)     | <Integer> index of start character in associated document | 
-| `end_char` (optional) | <Integer> index of end character in associated document     |
+| `start_char` (optional)     | `Integer` index of start character in associated document | 
+| `end_char` (optional) | `Integer` index of end character in associated document     |
 
 
 #### Creating an annotation
@@ -268,9 +268,9 @@ Note: pk is the primary key of the associated document
 
 | param         | description   | 
 | ------------- |---------------| 
-| `start_char`      | <Integer> index of start character in associated document | 
-| `end_char` | <Integer> index of end character in associated document     |
-| `contents` | <String> the text contents of the annotation     |
+| `start_char`      | `Integer` index of start character in associated document | 
+| `end_char` | `Integer` index of end character in associated document     |
+| `contents` | `String` the text contents of the annotation     |
 
 #### Getting annotations
 `GET /api/annotations/<int:pk>`
@@ -302,6 +302,6 @@ Note: pk is the primary key of the annotation
 
 | param         | description   | 
 | ------------- |---------------| 
-| `start_char` (optional)     | <Integer> index of start character in associated document | 
-| `end_char` (optional) | <Integer> index of end character in associated document     |
-  | `contents` (optional) | <String> the text contents of the annotation     |
+| `start_char` (optional)     | `Integer` index of start character in associated document | 
+| `end_char` (optional) | `Integer` index of end character in associated document     |
+  | `contents` (optional) | `String` the text contents of the annotation     |
