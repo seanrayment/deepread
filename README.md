@@ -1,10 +1,17 @@
+# deepread.app
+
 Dependencies:
+* Python 3.7.5 (mileage may vary on older versions)
+* sqlite
+* npm / yarn
 
-Python 3.7.5
+## Local setup (macOS)
 
-## Setup (macOS)
+You will need to run the frontend and backend servers to run this project.
 
-Create a python virtual environment for this project. This essentially serves as an isolated container for the project's dependencies. 
+### Backend setup
+
+Create a python virtual environment for this project. This essentially serves as an isolated container for the project's dependencies. You may skip virtual environment setup if you already have a preferred method.
 
 `sudo pip3 install virtualenvwrapper`
 
@@ -18,25 +25,55 @@ source /user/local/bin/virtualenvwrapper.sh
 ```
 Run these changes in the current terminal session with `source ~/.bashrc`
 
-Create a virtual environment for this project
+Create a virtual environment for this project:
 
 `mkvirtualenv deepread`
 
-If you leave this terminal session, you can access the virtual environment
+If you leave this terminal session, you can access the virtual environment with:
 
 `workon deepread`
 
-Run the following from within the virtual environment in the project root to install the project's dependencies
+Run the following from within the virtual environment in the project root to install the project's dependencies:
 
 `pip install -r requirements.txt`
 
-If you add new python modules while working on the project, register them as dependencies by running
+To run the server, first navigate to the backend directory:
 
-`pip freeze > requirements.txt`
+`cd ./backend`
 
-## API
+Then setup the database
 
-### Creating a user
+`python manage.py migrate`
+
+*Note:* If you get an error about unapplied migrations, first run `python manage.py makemigrations`
+
+Then start the server
+
+`python manage.py runserver`
+
+### Frontend setup
+
+With npm / yarn installed, navigate to the frontend directory:
+
+`cd ./frontend`
+
+Install project dependencies:
+
+`yarn` or `npm install`
+
+When that's finished, run the server:
+
+`yarn start` or `npm run start`
+
+If your browser doesn't automatically open, you can visit the web app at:
+
+`localhost:3000`
+
+*Note:* Make sure the backend server is running so http requests can be made
+
+### API
+
+#### Creating a user
 `POST /api/user/create/`
 | param         | description   | 
 | ------------- |---------------| 
@@ -45,7 +82,7 @@ If you add new python modules while working on the project, register them as dep
 | `password` | <String> at least 8 characters      |  
 
 
-### Obtaining a JWT token pair (User login) 
+#### Obtaining a JWT token pair (User login) 
 `POST /api/token/obtain/`
 
 | param         | description   | 
@@ -53,19 +90,19 @@ If you add new python modules while working on the project, register them as dep
 | `username`      | <String> must match an existing user | 
 | `password` | <String>      |  
 
-### Refreshing an access token (extending 5-minute user session)
+#### Refreshing an access token (extending 5-minute user session)
 `POST /api/token/refresh/`
 | param         | description   | 
 | ------------- |---------------| 
 | `refresh`      | <String> valid JWT refresh token from last 2 weeks | 
   
-### Blacklisting JWT token (User logout)
+#### Blacklisting JWT token (User logout)
 `POST /api/blacklist/`
 | param         | description   | 
 | ------------- |---------------| 
 | `refresh_token`      | <String> JWT refresh token | 
 
-### Get User Info
+#### Get User Info
 `GET /api/user/`
 | header         | description   | 
 | ------------- |---------------| 
@@ -79,7 +116,7 @@ example response
 }
 ```
 
-### Creating a document
+#### Creating a document
 `POST /api/documents/<int:pk>/`
 | header         | description   | 
 | ------------- |---------------| 
@@ -94,8 +131,9 @@ example response
 | `font_size` (optional)      | <Integer> font size to be used in px |
   | `char_width` (optional)      | <Integer> char width to be used in ch | 
     | `line_height` (optional)      | <Float> between .5 and 5.0, inclusive |
+   | `dark_mode` (optional)      | <Boolean> |
 
-### Updating a document
+#### Updating a document
 `PUT /api/documents/<int:pk>/`
 | header         | description   | 
 | ------------- |---------------| 
@@ -110,8 +148,9 @@ example response
 | `font_size` (optional)      | <Integer> font size to be used in px |
   | `char_width` (optional)      | <Integer> char width to be used in ch | 
       | `line_height` (optional)      | <Float> between .5 and 5.0, inclusive |
+  | `dark_mode` (optional)      | <Boolean> |
   
-### Getting a document
+#### Getting a document
 `GET /api/documents/<int:pk>/`
 | header         | description   | 
 | ------------- |---------------| 
@@ -128,17 +167,19 @@ example response
     "font_family": "georgia",
     "color": "000000",
     "font_size": 14,
-    "char_width": 80
+    "char_width": 80,
+    "line_height": 1.5,
+    "dark_mode": false,
 }
 ```
 
-### Deleting a document
+#### Deleting a document
 `DELETE /api/document/<int:pk>/`  
   | header         | description   | 
 | ------------- |---------------| 
 | `Authorization`      | `JWT <JWT access token>` |
 
-### Listing documents
+#### Listing documents
 `GET /api/documents/`
 | header         | description   | 
 | ------------- |---------------| 
@@ -172,7 +213,7 @@ example response
 ]
 ```
 
-## Creating a highlight
+#### Creating a highlight
 `POST /api/highlights/<int:pk>`
 Note: pk is the primary key of the associated document
 | header         | description   | 
@@ -184,28 +225,28 @@ Note: pk is the primary key of the associated document
 | `start_char`      | <Integer> index of start character in associated document | 
 | `end_char` | <Integer> index of end character in associated document     |
 
-## Getting highlights
+#### Getting highlights
 `GET /api/highlights/<int:pk>`
 Note: pk is the primary key of the associated document
 | header         | description   | 
 | ------------- |---------------| 
 | `Authorization`      | `JWT <JWT access token>` |
 
-## Getting a highlight
+#### Getting a highlight
 `GET /api/highlight/<int:pk>`
 Note: pk is the primary key of the specific highlight
 | header         | description   | 
 | ------------- |---------------| 
 | `Authorization`      | `JWT <JWT access token>` |
 
-## Deleting a highlight
+#### Deleting a highlight
 `DELETE /api/highlight/<int:pk>`
 Note: pk is the primary key of the specific highlight
 | header         | description   | 
 | ------------- |---------------| 
 | `Authorization`      | `JWT <JWT access token>` |
 
-## Updating a highlight
+#### Updating a highlight
 `PUT /api/highlight/<int:pk>`
 Note: pk is the primary key of the highlight
 | header         | description   | 
@@ -218,7 +259,7 @@ Note: pk is the primary key of the highlight
 | `end_char` (optional) | <Integer> index of end character in associated document     |
 
 
-## Creating an annotation
+#### Creating an annotation
 `POST /api/annotations/<int:pk>`
 Note: pk is the primary key of the associated document
 | header         | description   | 
@@ -231,28 +272,28 @@ Note: pk is the primary key of the associated document
 | `end_char` | <Integer> index of end character in associated document     |
 | `contents` | <String> the text contents of the annotation     |
 
-## Getting annotations
+#### Getting annotations
 `GET /api/annotations/<int:pk>`
 Note: pk is the primary key of the associated document
 | header         | description   | 
 | ------------- |---------------| 
 | `Authorization`      | `JWT <JWT access token>` |
 
-## Getting an annotation
+#### Getting an annotation
 `GET /api/annotation/<int:pk>`
 Note: pk is the primary key of the specific annotation
 | header         | description   | 
 | ------------- |---------------| 
 | `Authorization`      | `JWT <JWT access token>` |
 
-## Deleting an annotation
+#### Deleting an annotation
 `DELETE /api/annotation/<int:pk>`
 Note: pk is the primary key of the specific annotation
 | header         | description   | 
 | ------------- |---------------| 
 | `Authorization`      | `JWT <JWT access token>` |
 
-## Updating an annotation
+#### Updating an annotation
 `PUT /api/annotation/<int:pk>`
 Note: pk is the primary key of the annotation
 | header         | description   | 
